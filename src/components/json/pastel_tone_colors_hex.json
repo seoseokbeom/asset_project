@@ -1,23 +1,23 @@
 [
  {
    "id": 0,
-   "hex": "#E0BBE4"
+   "hex": "#FF6384"
  },
  {
    "id": 1,
-   "hex": "#957DAD"
+   "hex": "#36A2EB"
  },
  {
    "id": 2,
-   "hex": "#D291BC"
+   "hex": "#FFCE56"
  },
  {
    "id": 3,
-   "hex": "#FEC8D8"
+   "hex": "#E0BBE4"
  },
  {
    "id": 4,
-   "hex": "#FFDFD3"
+   "hex": "#957DAD"
  },
  {
    "id": 5,
@@ -74,5 +74,33 @@
  {
    "id": 18,
    "hex": "#B4D7A2"
+ },
+ {
+   "id": 19,
+   "hex": "#D291BC"
+ },
+ {
+   "id": 20,
+   "hex": "#FFDFD3"
+ },
+ {
+   "id": 21,
+   "hex": "#E0BBE4"
+ },
+ {
+   "id": 22,
+   "hex": "#957DAD"
+ },
+ {
+   "id": 23,
+   "hex": "#D291BC"
+ },
+ {
+   "id": 24,
+   "hex": "#FEC8D8"
+ },
+ {
+   "id": 25,
+   "hex": "#FFDFD3"
  }
 ]
