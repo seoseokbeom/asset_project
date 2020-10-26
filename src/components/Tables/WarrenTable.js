@@ -57,8 +57,8 @@ function App() {
             회사코드: warren.회사코드,
             lastName: warren.회사명,
             age: warren["보유금액"],
-            visits: warren["3개월평균 보유금액"],
-            status: warren.시가총액,
+            visits: warren["보유주식수"],
+            status: warren.지분률,
         };
         return info;
     });
@@ -87,11 +87,11 @@ function App() {
                         accessor: "age",
                     },
                     {
-                        Header: "3개월평균 보유금액",
+                        Header: "보유 주식 수",
                         accessor: "visits",
                     },
                     {
-                        Header: "시가총액",
+                        Header: "지분률",
                         accessor: "status",
                     },
                     // {
@@ -110,7 +110,8 @@ function App() {
             // { 회사코드: "1", lastName: "2", age: "3", visits: "4" },
             // { 회사코드: "1", lastName: "2", age: "3", visits: "4" },
             // { 회사코드: "1", lastName: "2", age: "3", visits: "4" },
-            ...warrenData,
+            ...warrenData.slice(1),
+            warrenData[0],
         ],
         []
     );
