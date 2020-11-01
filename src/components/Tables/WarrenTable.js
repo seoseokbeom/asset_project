@@ -11,9 +11,6 @@ function Table({ columns, data }) {
         columns,
         data,
     });
-    // console.log(warrenStockData);
-
-    // Render the UI for your table
     return (
         <BTable striped bordered hover size="sm" {...getTableProps()}>
             <thead>
@@ -46,11 +43,6 @@ function Table({ columns, data }) {
         </BTable>
     );
 }
-// "회사코드": "WFC",
-//    "회사명": "Wells Fargo",
-//    "보유금액($)": "23.89M",
-//    "3개월평균 보유금액": "39.51M",
-//    "시가총액": "96.21B"
 function App() {
     const warrenData = warrenStockData.map(function (warren) {
         var info = {
@@ -62,7 +54,6 @@ function App() {
         };
         return info;
     });
-    // console.log(warrenData);
 
     const columns = React.useMemo(
         () => [
@@ -72,18 +63,35 @@ function App() {
                     {
                         Header: "회사코드",
                         accessor: "회사코드",
+
+                        style: {
+                            background: "red",
+                            color: "yellow",
+                        },
+                        getProps: (state, rowInfo, column) => {
+                            return {
+                                style: {
+                                    background: "red",
+                                    color: "yellow",
+                                },
+                            };
+                        },
                     },
                     {
                         Header: "회사명",
                         accessor: "lastName",
                     },
                 ],
+                style: {
+                    background: "red",
+                    color: "yellow",
+                },
             },
             {
                 Header: "Info",
                 columns: [
                     {
-                        Header: "보유금액($)",
+                        Header: "보유금액",
                         accessor: "age",
                     },
                     {
@@ -94,25 +102,13 @@ function App() {
                         Header: "지분률",
                         accessor: "status",
                     },
-                    // {
-                    //     Header: "Profile Progress",
-                    //     accessor: "progress",
-                    // },
                 ],
             },
         ],
         []
     );
-    // 회사코드	회사명	Age	Visits	Status	Profile Progress
     const data = React.useMemo(
-        () => [
-            // { 회사코드: "1", lastName: "2", age: "3", visits: "4" },
-            // { 회사코드: "1", lastName: "2", age: "3", visits: "4" },
-            // { 회사코드: "1", lastName: "2", age: "3", visits: "4" },
-            // { 회사코드: "1", lastName: "2", age: "3", visits: "4" },
-            ...warrenData.slice(1),
-            warrenData[0],
-        ],
+        () => [...warrenData.slice(1), warrenData[0]],
         []
     );
 

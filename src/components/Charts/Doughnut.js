@@ -22,14 +22,14 @@ var companyName = warrenStockData.map(function (warren) {
 var totalVolum = 238386028163;
 var volumData = warrenStockData.map(function (warren) {
     if (warren.id != 0) {
-        console.log(
-            // Math.round(num * 100) / 100
-            Math.round(
-                (warren["보유금액"].replace("$", "").replace(/,/g, "") *
-                    10000) /
-                    totalVolum
-            ) / 100
-        );
+        // console.log(
+        //     // Math.round(num * 100) / 100
+        //     Math.round(
+        //         (warren["보유금액"].replace("$", "").replace(/,/g, "") *
+        //             10000) /
+        //             totalVolum
+        //     ) / 100
+        // );
         return parseFloat(
             Math.round(
                 (warren["보유금액"].replace("$", "").replace(/,/g, "") *

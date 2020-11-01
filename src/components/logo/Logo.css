@@ -1,22 +1,34 @@
 .container-name {
     width: 100%;
-    height: 40vh;
+    height: 558px;
     box-sizing: border-box;
-    padding: 0 5%;
-    background: rgb(108, 89, 210);
-    background: linear-gradient(
-        90deg,
-        rgba(108, 89, 210, 1) 0%,
-        rgba(74, 0, 92, 1) 100%
-    );
+    /* padding: 0 5%; */
+    background: #13113c;
+    margin: 0;
+    margin-top: 0px !important;
 }
 
 .layout2 {
-    max-width: 1301px;
-    margin: auto;
+    /* position: relative; */
+    height: 100%;
+    /* max-width: 1301px;
+    margin: auto; */
 }
 
 .title {
+    position: absolute;
+    /* width: 544px; */
+    height: 106px;
+    left: 127px;
+    top: 220px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 54px;
+    line-height: 70px;
+    color: #ffffff;
+    /* 
     font-family: "NotoSans Light", "Malgun Gothic", "맑은 고딕",
         "Apple SD Gothic Neo", "돋움", dotum, sans-serif;
     margin: 0 0 10px;
@@ -25,13 +37,51 @@
     font-size: 40px;
     color: white;
     text-align: left;
-    flex: left;
+    flex: left; */
 }
-.description {
+
+.detail_desc {
+    font-size: 28px;
+}
+.right_img {
+    /* height: 100%; */
+    position: relative;
+    /* position: absolute;
+    top: 240px;
+    right: 0; */
+}
+
+.grafana {
+    position: absolute;
+    /* position: relative; */
+    /* position: static; */
+    width: 915px;
+    /* bottom: 0px; */
+    right: 0;
+    /* height: 0; */
+    margin-right: 1%;
+    margin-top: 150px;
+
+    /* padding-bottom: calc(750px * 0.45); */
+    /* top: 100%;
+    transform: translateY(100%); */
+    /* left: 720px; */
+    /* top: 202px; */
+}
+
+.kakao {
+    padding: 90px 0;
+}
+.kakao_login_logo {
+    width: 224px;
+    height: 51px;
+    cursor: pointer;
+}
+/* .description {
     color: white;
     width: 45%;
     text-align: left;
     font-size: 19px;
     font-weight: normal;
     line-height: 1.43;
-}
+} */

@@ -2,7 +2,8 @@ import React from "react";
 import "./Header.css";
 import compass from "../images/compass.png";
 import Kakao from "../images/kakao_login_medium_narrow.png";
-function Header() {
+
+function YahooHeader() {
     return (
         <section className="header">
             <section className="header-upper"></section>
@@ -31,4 +32,4 @@ function Header() {
     );
 }
 
-export default Header;
+export default YahooHeader;
