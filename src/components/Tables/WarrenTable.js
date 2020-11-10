@@ -64,28 +64,57 @@ function App() {
                         Header: "회사코드",
                         accessor: "회사코드",
 
-                        style: {
-                            background: "red",
-                            color: "yellow",
+                        Cell: ({ value }) => {
+                            const nameArr = ["AAPL", "AAB"];
+                            return (
+                                <div
+                                    style={{
+                                        color: "#323f9b",
+                                        fontSize: "13px",
+                                        fontWeight: "900",
+                                    }}
+                                >
+                                    {value}
+                                </div>
+                            );
+                            return nameArr.includes(value) ? (
+                                <div style={{ color: "red" }}>{value}</div>
+                            ) : (
+                                value
+                            );
                         },
-                        getProps: (state, rowInfo, column) => {
-                            return {
-                                style: {
-                                    background: "red",
-                                    color: "yellow",
-                                },
-                            };
-                        },
+                        // style: {
+                        //     background: "red",
+                        //     color: "yellow",
+                        // },
+                        // getProps: (state, rowInfo, column) => {
+                        //     return {
+                        //         style: {
+                        //             background: "red",
+                        //             color: "yellow",
+                        //         },
+                        //     };
+                        // },
                     },
                     {
                         Header: "회사명",
                         accessor: "lastName",
+                        Cell: ({ value }) => {
+                            const nameArr = ["AAPL", "AAB"];
+                            return (
+                                <div
+                                    style={{
+                                        color: "#323f9b",
+                                        fontSize: "13px",
+                                        // fontWeight: "900",
+                                    }}
+                                >
+                                    {value}
+                                </div>
+                            );
+                        },
                     },
                 ],
-                style: {
-                    background: "red",
-                    color: "yellow",
-                },
             },
             {
                 Header: "Info",

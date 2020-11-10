@@ -10,11 +10,42 @@ import PortfolioManage from "./components/pages/PortfolioManage";
 import Doughnut from "./components/Charts/Doughnut";
 import buffett from "./components/images/PNG/buffett.png";
 import BuffetTable from "./components/Tables/WarrenTable";
+import BuySellModal from "./components/Form/BuySellModal";
+import ModalPopup from "./components/Form/ModalPopup";
+import DatePickerExample from "./components/Form/DatePickerExample";
+
+const Counter = () => {
+    return (
+        <div>
+            <h1>여기엔 숫자를 담자</h1>
+            <button>+ 1</button>
+            <button>- 1</button>
+        </div>
+    );
+};
 
 function App() {
+    const triggerText = "+";
+    const onSubmit = (event) => {
+        event.preventDefault(event);
+        console.log(event.target.name.value);
+        console.log(event.target.email.value);
+    };
     return (
-        <div className="App">
-            <WallHeader />
+        <div
+            className="App"
+            style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+            }}
+        >
+            {/* <WallHeader /> */}
+            {/* <DatePickerExample /> */}
+            {/* <BuySellModal /> */}
+            <ModalPopup triggerText={triggerText} onSubmit={onSubmit} />
+            {/* <Counter />
             <Logo />
             <IntroPageContent />
             <ChartContainer>
@@ -23,7 +54,7 @@ function App() {
                 <BuffetTable />
             </ChartContainer>
             <StockChart />
-            <PortfolioManage />
+            <PortfolioManage /> */}
         </div>
     );
     const [items, setItems] = useState([]);

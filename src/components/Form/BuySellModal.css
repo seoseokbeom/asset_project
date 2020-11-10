@@ -1,0 +1,25 @@
+.input {
+    width: 100%;
+}
+
+.form-container {
+    /* text-align: left;
+    float: left; */
+    margin: 10px 0;
+}
+
+.section-container {
+    left: 0px;
+}
+
+.section-label {
+    margin: 10px 0;
+}
+
+.buy-sell-add-button {
+    margin-top: 100px;
+}
+
+.black-color {
+    color: black;
+}
