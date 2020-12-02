@@ -22,18 +22,19 @@ export const Modal = ({
                 onKeyDown={onKeyDown}
             >
                 <div className="modal-area" ref={modalRef}>
+                    {/* <div className="tmp" onClick={closeModal}> */}
                     <button
+                        onClick={closeModal}
                         ref={buttonRef}
                         aria-label="Close Modal"
                         aria-labelledby="close-modal"
                         className="_modal-close"
-                        onClick={closeModal}
-                        style={{
+                        /* style={{
                             position: "absolute",
                             left: "90%",
                             // top: "50%",
                             transform: "translate(-50%, 0%)",
-                        }}
+                        }} */
                     >
                         <span id="close-modal" className="_hide-visual">
                             Close
@@ -42,6 +43,7 @@ export const Modal = ({
                             <path d="M 10,10 L 30,30 M 30,10 L 10,30" />
                         </svg> */}
                     </button>
+                    {/* </div> */}
                     <div className="modal-body">
                         <FormContainer
                             closeModal={closeModal}

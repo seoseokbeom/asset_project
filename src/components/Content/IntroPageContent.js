@@ -1,8 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import portfolioImg from "../images/JPG/portfolioImg.JPG";
+import Logo from "../logo/Logo";
+import "./IntroPageContent.css";
+
 const IntroPageContent = () => (
     <Container>
+        <Logo />
         <Title>
             <div className="main_title">주식 포트폴리오 기록</div>
             <div className="sub_title">
@@ -24,6 +28,8 @@ const IntroPageContent = () => (
 );
 
 const Container = styled.div`
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 200vh;
     background-color: #eff0f3;

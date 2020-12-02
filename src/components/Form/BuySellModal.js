@@ -4,8 +4,8 @@ import ReactSelect from "react-select";
 import NumberFormat from "react-number-format";
 import Button from "react-bootstrap/Button";
 import SaveIcon from "@material-ui/icons/Save";
-// import React, { useState } from "react";
 import ReactDOM from "react-dom";
+
 import "./BuySellModal.css";
 
 import { DatePicker } from "@y0c/react-datepicker";
@@ -48,11 +48,24 @@ function BuySellModal({ closeModal }) {
         console.log(e);
     };
 
+    const submitFunc = (data) => {
+        handleSubmit((data) => console.log(data));
+        closeModal();
+    };
+
+    // return (
+    //     <form
+    //         onSubmit={submitFunc(data)}
+    //         // handleSubmit((data) => console.log(data))
+    //         className="form"
+    //     ></form>
+
     return (
-        // <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        // <form onSubmit={handleSubmit((data) => setData(data))} className="form">
         <form
-            onSubmit={handleSubmit((data) => console.log(data))}
+            onSubmit={handleSubmit((data) => {
+                console.log(data);
+                closeModal();
+            })}
             className="form"
         >
             <div className="form-container">
@@ -70,38 +83,11 @@ function BuySellModal({ closeModal }) {
                     />
                     <hr />
                 </section>
-                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Controller
-                        name="MUIPicker"
-                        control={control}
-                        render={({ ref, ...rest }) => (
-                            <KeyboardDatePicker
-                                margin="normal"
-                                id="date-picker-dialog"
-                                label="Date picker dialog"
-                                format="MM/dd/yyyy"
-                                KeyboardButtonProps={{
-                                    "aria-label": "change date",
-                                }}
-                                {...rest}
-                            />
-                        )}
-                    />
-                </MuiPickersUtilsProvider> */}
-                {/* <label className="black-color">날짜</label>
-                    <div />
-                    <KeyboardDatePicker
-                        placeholder="2018/10/10"
-                        value={selectedDate}
-                        onChange={(date) => handleDateChange(date)}
-                        format="yyyy/MM/dd"
-                    />
-                    <hr /> */}
                 <section>
                     <label className="section-container">수량</label>
                     <input
                         type="number"
-                        name="example"
+                        name="numOfStock"
                         className="input"
                         defaultValue="0"
                         ref={register}
@@ -114,12 +100,23 @@ function BuySellModal({ closeModal }) {
                     <div />
                     <DatePicker
                         onChange={(ac) => {
-                            setAction(ac);
-                            console.log(action);
                             console.log(ac);
+                            setAction(
+                                `${ac["$y"]}-${ac["$M"] + 1}-${ac["$D"]}`
+                            );
+                            //console.log(action);
+                            // console.log(ac["$d"]);
+                            console.log(action);
                         }}
                     />
-
+                    <input
+                        type="text"
+                        name="date"
+                        value={action}
+                        // defaultValue="0"
+                        className="disable"
+                        ref={register}
+                    />
                     <hr />
                 </section>
                 <section>
@@ -128,6 +125,7 @@ function BuySellModal({ closeModal }) {
                     <Controller
                         as={NumberFormat}
                         thousandSeparator
+                        // type="number"
                         name="numberFormat"
                         className="input"
                         control={control}
@@ -135,17 +133,17 @@ function BuySellModal({ closeModal }) {
                         //   onClick={this.props.closeModal}
                     />
                 </section>
-                <Button
+                <input type="submit" value="Save" />
+                {/* <Button
                     className="buy-sell-add-button"
                     style={{ position: "absolute", right: "0px" }}
                     variant="outline-primary"
                     type="submit"
                     onClick={clickButton}
                 >
-                    {/* // onClick={closeModal */}
                     <SaveIcon /> {"  "}
-                    Primary
-                </Button>{" "}
+                    Save
+                </Button> */}
             </div>
         </form>
         // </MuiPickersUtilsProvider>

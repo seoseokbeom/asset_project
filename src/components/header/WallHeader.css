@@ -38,6 +38,7 @@ main {
     font-weight: normal;
     font-size: 15px;
     line-height: 18px;
+    text-decoration: none;
 }
 
 .navbar__item:last-child {

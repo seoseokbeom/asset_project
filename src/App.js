@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 // import YahooHeader from "./components/header/YahooHeader";
 import WallHeader from "./components/header/WallHeader";
-import Logo from "./components/logo/Logo";
 import IntroPageContent from "./components/Content/IntroPageContent";
+import PortfolioAdd from "./components/Content/PortfolioAdd";
+import WarrenBuffet from "./components/Content/WarrenBuffet";
+
 import styled from "styled-components";
 // import Pie from "./components/Charts/Pie";
+import Logo from "./components/logo/Logo";
 import StockChart from "./components/Charts/StockChart";
 import PortfolioManage from "./components/pages/PortfolioManage";
 import Doughnut from "./components/Charts/Doughnut";
@@ -13,6 +16,7 @@ import BuffetTable from "./components/Tables/WarrenTable";
 import BuySellModal from "./components/Form/BuySellModal";
 import ModalPopup from "./components/Form/ModalPopup";
 import DatePickerExample from "./components/Form/DatePickerExample";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 const Counter = () => {
     return (
@@ -34,27 +38,38 @@ function App() {
     return (
         <div
             className="App"
-            style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
-            }}
+            // style={{
+            //     position: "absolute",
+            //     left: "50%",
+            //     top: "50%",
+            //     transform: "translate(-50%, -50%)",
+            // }}
         >
-            {/* <WallHeader /> */}
-            {/* <DatePickerExample /> */}
-            {/* <BuySellModal /> */}
-            <ModalPopup triggerText={triggerText} onSubmit={onSubmit} />
-            {/* <Counter />
-            <Logo />
-            <IntroPageContent />
-            <ChartContainer>
-                <Img src={buffett} />
-                <Doughnut />
-                <BuffetTable />
-            </ChartContainer>
-            <StockChart />
-            <PortfolioManage /> */}
+            <Router>
+                <WallHeader />
+
+                <Switch>
+                    <Route exact path="/" component={IntroPageContent} />
+                    <Route exact path="/portfolio" component={PortfolioAdd} />
+                    ;
+                    <Route exact path="/warren" component={WarrenBuffet} />;
+                    {/* component={WarrenBuffet} */}
+                </Switch>
+
+                {/* <Logo /> */}
+                {/* <DatePickerExample /> */}
+                {/* <BuySellModal /> */}
+                {/* <Counter /> */}
+                {/* <IntroPageContent /> */}
+                {/* <ModalPopup triggerText={triggerText} onSubmit={onSubmit} /> */}
+                {/* <ChartContainer>
+                    <Img src={buffett} />
+                    <Doughnut />
+                    <BuffetTable />
+                </ChartContainer> */}
+                <StockChart />
+                <PortfolioManage />
+            </Router>
         </div>
     );
     const [items, setItems] = useState([]);

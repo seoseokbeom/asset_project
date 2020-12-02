@@ -7,6 +7,10 @@ import brandImg from "./../images/SVG/brand_icon.svg";
 import KaKaoLogin from "react-kakao-login";
 import axios from "axios";
 import styled from "styled-components";
+import WarrenBuffet from "../Content/WarrenBuffet";
+import PortfolioAdd from "../Content/PortfolioAdd";
+import IntroPageContent from "../Content/IntroPageContent";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 class WallHeader extends Component {
     constructor(props) {
@@ -108,12 +112,32 @@ class WallHeader extends Component {
     render() {
         return (
             <header className="navbar">
-                <div className="navbar__title navbar__item ">
-                    <img className="brand_img" src={brandImg} alt="brand_img" />{" "}
-                    Assetlocation
+                {/* <ul>
+                    </ul> */}
+
+                <div className="navbar__title navbar__item">
+                    <Link to="/" className="navbar__item">
+                        <img
+                            className="brand_img"
+                            src={brandImg}
+                            alt="brand_img"
+                        />{" "}
+                        Assetlocation
+                    </Link>
                 </div>
-                <div className="navbar__item">포트폴리오</div>
-                <div className="navbar__item">워렌버핏</div>
+                {/* <div className="navbar__item">
+                        <Link to="/">홈</Link>
+                    </div> */}
+                <div className="navbar__item">
+                    <Link to="/portfolio" className="navbar__item">
+                        포트폴리오
+                    </Link>
+                </div>
+                <div className="navbar__item">
+                    <Link to="/warren" className="navbar__item">
+                        워렌버핏
+                    </Link>
+                </div>
                 <div className="navbar__item">통계</div>
                 <div className="navbar__item">뉴스</div>
                 <div className="navbar__item">
@@ -136,6 +160,7 @@ class WallHeader extends Component {
                         className="kakao_login"
                     /> */}
                 </div>
+                {/* </Router> */}
             </header>
         );
     }
