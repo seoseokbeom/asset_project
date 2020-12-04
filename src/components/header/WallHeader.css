@@ -6,6 +6,18 @@ main {
     /* margin: 16px; */
 }
 
+.bold_nav {
+    font-size: 1.3rem;
+    color: #bcc0d8;
+    font-family: Helvetica;
+    font-weight: 300;
+}
+
+.bold_nav:hover {
+    color: white;
+    text-decoration: none;
+}
+
 .navbar {
     display: flex;
     align-items: center;
@@ -38,6 +50,10 @@ main {
     font-weight: normal;
     font-size: 15px;
     line-height: 18px;
+    text-decoration: none;
+}
+.navbar__item:hover {
+    color: white;
     text-decoration: none;
 }
 

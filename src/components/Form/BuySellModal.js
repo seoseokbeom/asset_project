@@ -35,7 +35,7 @@ const defaultValues = {
     numberFormat: 0,
 };
 
-function BuySellModal({ closeModal }) {
+function BuySellModal({ row, setRow, closeModal, setFormData }) {
     const { handleSubmit, register, reset, control } = useForm({
         defaultValues,
     });
@@ -48,10 +48,10 @@ function BuySellModal({ closeModal }) {
         console.log(e);
     };
 
-    const submitFunc = (data) => {
-        handleSubmit((data) => console.log(data));
-        closeModal();
-    };
+    // const submitFunc = (data) => {
+    //     handleSubmit((data) => console.log(data));
+    //     closeModal();
+    // };
 
     // return (
     //     <form
@@ -60,10 +60,31 @@ function BuySellModal({ closeModal }) {
     //         className="form"
     //     ></form>
 
+    const item = {
+        symbol: "aaaaa",
+        name: "",
+        cost: "",
+        marketValue: "",
+        return: "",
+    };
     return (
         <form
             onSubmit={handleSubmit((data) => {
                 console.log(data);
+                setFormData(data);
+                // setRow()
+                setRow([
+                    ...row,
+                    {
+                        symbol: data.BuySellSelector.value,
+                        name: data.date,
+                        // : data["numOfStock"],
+                        cost: data.price,
+                        date: data["date"],
+                        marketValue: data.numOfStock,
+                        return: "",
+                    },
+                ]);
                 closeModal();
             })}
             className="form"
@@ -126,7 +147,7 @@ function BuySellModal({ closeModal }) {
                         as={NumberFormat}
                         thousandSeparator
                         // type="number"
-                        name="numberFormat"
+                        name="price"
                         className="input"
                         control={control}
                         // onClick={}

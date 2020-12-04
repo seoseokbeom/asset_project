@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 // import Paper from "@material-ui/core/Paper";
@@ -25,15 +25,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const FormContainer = ({ onSubmit, closeModal }) => {
+export const FormContainer = ({ row, setRow, onSubmit, closeModal }) => {
     const classes = useStyles();
+    const [formData, setFormData] = useState([{}]);
     return (
         <div>
+            {/* {console.log(formData, "------")} */}
             <Typography variant="h6" gutterBottom>
                 새로운 매매 일지:
             </Typography>
             <br />
-            <BuySellModal closeModal={closeModal} />
+            <BuySellModal
+                setRow={setRow}
+                closeModal={closeModal}
+                setFormData={setFormData}
+                row={row}
+            />
             {/* <KrwInput /> */}
         </div>
     );

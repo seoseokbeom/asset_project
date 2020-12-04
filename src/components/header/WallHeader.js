@@ -32,40 +32,11 @@ class WallHeader extends Component {
         if (loggedInUser) {
             console.log("Hi");
             console.log(loggedInUser);
-            // console.log(JSON.parse(loggedInUser)[0]);
             console.log(JSON.parse(loggedInUser));
             const foundUser = JSON.parse(loggedInUser);
-            // setUser(foundUser);
             const user = foundUser;
-            // this.setState({
-            //     user: foundUser,
-            // });
         }
-        // Typical usage (don't forget to compare props):
-        // if (this.props.userID !== prevProps.userID) {
-        //   this.fetchData(this.props.userID);
-        // }
     }
-
-    // if there's a user show the message below
-    // if(user) {
-    //     return <div>{user} is loggged in</div>;
-    // }
-    // handleSubmit = async e => {
-    //     e.preventDefault();
-    //     const user = { username, password };
-    //     // send the username and password to the server
-    //     const response = await axios.post(
-    //       "http://blogservice.herokuapp.com/api/login",
-    //       user
-    //     );
-    //     // set the state of the user
-    //     setUser(response.data)
-    //     // store the user in localStorage
-    //     localStorage.setItem('user', response.data)
-    //     console.log(response.data)
-    //   };
-
     responseKaKao = (res) => {
         this.setState({
             data: res,
@@ -115,14 +86,15 @@ class WallHeader extends Component {
                 {/* <ul>
                     </ul> */}
 
-                <div className="navbar__title navbar__item">
+                <div className="navbar__title navbar__item ">
                     <Link to="/" className="navbar__item">
                         <img
                             className="brand_img"
                             src={brandImg}
                             alt="brand_img"
-                        />{" "}
-                        Assetlocation
+                        />
+                        {"    "}
+                        <span className="bold_nav"> Assetlocation</span>
                     </Link>
                 </div>
                 {/* <div className="navbar__item">

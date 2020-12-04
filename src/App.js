@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import WallHeader from "./components/header/WallHeader";
 import IntroPageContent from "./components/Content/IntroPageContent";
 import PortfolioAdd from "./components/Content/PortfolioAdd";
+// import PortfolioManage from "./components/pages/PortfolioManage";
 import WarrenBuffet from "./components/Content/WarrenBuffet";
 
 import styled from "styled-components";
@@ -10,6 +11,7 @@ import styled from "styled-components";
 import Logo from "./components/logo/Logo";
 import StockChart from "./components/Charts/StockChart";
 import PortfolioManage from "./components/pages/PortfolioManage";
+import NewPortfolio from "./components/pages/NewPortfolio";
 import Doughnut from "./components/Charts/Doughnut";
 import buffett from "./components/images/PNG/buffett.png";
 import BuffetTable from "./components/Tables/WarrenTable";
@@ -50,8 +52,16 @@ function App() {
 
                 <Switch>
                     <Route exact path="/" component={IntroPageContent} />
-                    <Route exact path="/portfolio" component={PortfolioAdd} />
-                    ;
+                    <Route
+                        exact
+                        path="/portfolio"
+                        component={PortfolioManage}
+                    />
+                    <Route
+                        exact
+                        path="/portfolio/add"
+                        component={NewPortfolio}
+                    />
                     <Route exact path="/warren" component={WarrenBuffet} />;
                     {/* component={WarrenBuffet} */}
                 </Switch>
@@ -68,7 +78,7 @@ function App() {
                     <BuffetTable />
                 </ChartContainer> */}
                 <StockChart />
-                <PortfolioManage />
+                {/* <PortfolioManage /> */}
             </Router>
         </div>
     );

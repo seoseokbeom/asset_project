@@ -43,6 +43,8 @@ export class ModalPopup extends Component {
                         closeModal={this.closeModal}
                         onKeyDown={this.onKeyDown}
                         onClickOutside={this.onClickOutside}
+                        setRow={this.props.setRow}
+                        row={this.props.row}
                     />
                 ) : null}
             </React.Fragment>

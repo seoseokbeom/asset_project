@@ -9,6 +9,8 @@ export const Modal = ({
     buttonRef,
     closeModal,
     onSubmit,
+    setRow,
+    row,
 }) => {
     return ReactDOM.createPortal(
         <FocusTrap>
@@ -48,6 +50,8 @@ export const Modal = ({
                         <FormContainer
                             closeModal={closeModal}
                             onSubmit={onSubmit}
+                            setRow={setRow}
+                            row={row}
                         />
                     </div>
                 </div>
