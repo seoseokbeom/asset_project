@@ -1,84 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { useTable } from "react-table";
-// import { columns, data } from "./dataSource";
 import styled from "styled-components";
 import PortfolioAdd from "../Content/PortfolioAdd";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import axios from "axios";
 
 import "./table.css";
-
-export const data = [
-    {
-        symbol: "Alice",
-        name: "Johnson",
-        age: 9,
-        gender: "F",
-        grade: 4,
-    },
-    {
-        firstName: "Mike",
-        lastName: "Ford",
-        age: 5,
-        gender: "M",
-        grade: 1,
-    },
-    {
-        firstName: "John",
-        lastName: "Smith",
-        age: 8,
-        gender: "M",
-        grade: 4,
-    },
-    {
-        firstName: "Joe",
-        lastName: "Johnson",
-        age: 11,
-        gender: "M",
-        grade: 6,
-    },
-    {
-        firstName: "Linda",
-        lastName: "Ford",
-        age: 8,
-        gender: "F",
-        grade: 5,
-    },
-    {
-        firstName: "Noah",
-        lastName: "Wilson",
-        age: 9,
-        gender: "M",
-        grade: 3,
-    },
-    {
-        firstName: "Emma",
-        lastName: "Lee",
-        age: 7,
-        gender: "F",
-        grade: 3,
-    },
-    {
-        firstName: "James",
-        lastName: "Jones",
-        age: 10,
-        gender: "M",
-        grade: 5,
-    },
-    {
-        firstName: "Mia",
-        lastName: "Brown",
-        age: 8,
-        gender: "F",
-        grade: 5,
-    },
-    {
-        firstName: "William",
-        lastName: "Davis",
-        age: 11,
-        gender: "M",
-        grade: 6,
-    },
-];
 
 export const columns = [
     {
@@ -100,79 +27,6 @@ export const columns = [
     {
         Header: "수익률",
         accessor: "return",
-    },
-];
-
-export const tmp = [
-    {
-        symbol: "Alice",
-        name: "Johnson",
-        age: 9,
-        gender: "F",
-        grade: 4,
-    },
-    {
-        firstName: "Mike",
-        lastName: "Ford",
-        age: 5,
-        gender: "M",
-        grade: 1,
-    },
-    {
-        firstName: "John",
-        lastName: "Smith",
-        age: 8,
-        gender: "M",
-        grade: 4,
-    },
-    {
-        firstName: "Joe",
-        lastName: "Johnson",
-        age: 11,
-        gender: "M",
-        grade: 6,
-    },
-    {
-        firstName: "Linda",
-        lastName: "Ford",
-        age: 8,
-        gender: "F",
-        grade: 5,
-    },
-    {
-        firstName: "Noah",
-        lastName: "Wilson",
-        age: 9,
-        gender: "M",
-        grade: 3,
-    },
-    {
-        firstName: "Emma",
-        lastName: "Lee",
-        age: 7,
-        gender: "F",
-        grade: 3,
-    },
-    {
-        firstName: "James",
-        lastName: "Jones",
-        age: 10,
-        gender: "M",
-        grade: 5,
-    },
-    {
-        firstName: "Mia",
-        lastName: "Brown",
-        age: 8,
-        gender: "F",
-        grade: 5,
-    },
-    {
-        firstName: "William",
-        lastName: "Davis",
-        age: 11,
-        gender: "M",
-        grade: 6,
     },
 ];
 
@@ -203,6 +57,19 @@ function PortfolioManageContent() {
         data,
     });
 
+    const createPortfolio = () => {
+        axios
+            .post("/portfolio", {
+                name: "testportfolioname",
+                headers: {
+                    Authorization: `Bearer ${this.state.access_token}`,
+                },
+            })
+            .then((res) => {
+                console.log(res);
+            });
+    };
+
     const handleAddRow = () => {
         const item = {
             symbol: "gggss",
@@ -230,7 +97,22 @@ function PortfolioManageContent() {
                         </Link>
                     </div>
                 </WatchListContainer>
-                <PortfolioAdd row={row} setRow={setRow} />
+                <Link
+                    to="/portfolio/diverse"
+                    style={{
+                        textDecoration: "none",
+                        color: "black",
+                    }}
+                >
+                    <Container3
+                        style={{
+                            fontWeight: "bold",
+                        }}
+                    >
+                        내가만든포트폴리오1
+                    </Container3>
+                </Link>
+                {/* <PortfolioAdd row={row} setRow={setRow} />
                 <table {...getTableProps()}>
                     <thead>
                         {headerGroups.map((headerGroup) => (
@@ -270,11 +152,20 @@ function PortfolioManageContent() {
                             </tr>
                         ))}
                     </tfoot>
-                </table>
+                </table> */}
             </Container2>
         </Background>
     );
 }
+
+const Container3 = styled.div`
+    margin: 0 20px;
+    height: 130px;
+    width: 100%;
+    background-color: white;
+    color: balck;
+    padding: 30px;
+`;
 
 const Background = styled.div`
     width: 100%;

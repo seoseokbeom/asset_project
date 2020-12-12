@@ -3,12 +3,14 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import axios from "axios";
 import "./newForm.css";
 
 const NewPortfolio = () => {
     let history = useHistory();
     const onSubmit = (data) => {
         alert(JSON.stringify(data));
+        createPortfolio();
         history.push("/portfolio", { data, id: 7, color: "green" });
     };
 
@@ -20,6 +22,20 @@ const NewPortfolio = () => {
             isDeveloper: true,
         },
     });
+
+    const createPortfolio = () => {
+        axios
+            .post("/portfolio", {
+                name: "testportfolioname",
+                headers: {
+                    Authorization: `Bearer ${this.state.access_token}`,
+                },
+            })
+            .then((res) => {
+                console.log(res);
+            });
+    };
+
     return (
         <div>
             <Background>
@@ -28,11 +44,15 @@ const NewPortfolio = () => {
                         <div className="watchlist">포트폴리오 추가</div>
                     </WatchListContainer>
                     <Form>
-                        <form onSubmit={handleSubmit(onSubmit)}>
+                        <form
+                            className="new_portfolio_form"
+                            onSubmit={handleSubmit(onSubmit)}
+                        >
                             <label htmlFor="portfolio_name">
                                 포트폴리오 이름
                             </label>
                             <input
+                                className="new_portfolio_input"
                                 name="portfolio_name"
                                 placeholder="첫번째포트폴리오"
                                 ref={register}
@@ -40,6 +60,7 @@ const NewPortfolio = () => {
 
                             <label htmlFor="second_qeustion">두번쨰 질문</label>
                             <input
+                                className="new_portfolio_input"
                                 name="second_qeustion"
                                 placeholder="두번쨰질문"
                                 ref={register}
@@ -47,6 +68,7 @@ const NewPortfolio = () => {
 
                             <label htmlFor="third_question">Email</label>
                             <input
+                                className="new_portfolio_input"
                                 name="third_question"
                                 placeholder="test@naver.com"
                                 type="email"
@@ -55,12 +77,16 @@ const NewPortfolio = () => {
 
                             <label>체크</label>
                             <input
+                                className="new_portfolio_input"
                                 name="check_"
                                 type="checkbox"
                                 ref={register}
                             />
                             {/* <Link to="/portfolio"> */}
-                            <input type="submit" />
+                            <input
+                                className="new_portfolio_input"
+                                type="submit"
+                            />
                             {/* </Link> */}
                         </form>
                     </Form>

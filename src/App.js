@@ -11,6 +11,7 @@ import styled from "styled-components";
 import Logo from "./components/logo/Logo";
 import StockChart from "./components/Charts/StockChart";
 import PortfolioManage from "./components/pages/PortfolioManage";
+import DiversifiedPortfolio from "./components/pages/DiversifiedPortfolio";
 import NewPortfolio from "./components/pages/NewPortfolio";
 import Doughnut from "./components/Charts/Doughnut";
 import buffett from "./components/images/PNG/buffett.png";
@@ -61,6 +62,11 @@ function App() {
                         exact
                         path="/portfolio/add"
                         component={NewPortfolio}
+                    />
+                    <Route
+                        exact
+                        path="/portfolio/diverse"
+                        component={DiversifiedPortfolio}
                     />
                     <Route exact path="/warren" component={WarrenBuffet} />;
                     {/* component={WarrenBuffet} */}

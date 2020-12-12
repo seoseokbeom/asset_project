@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 // import React from "react";
 import "./WallHeader.css";
 // import compass from "../images/compass.png";
@@ -7,23 +7,71 @@ import brandImg from "./../images/SVG/brand_icon.svg";
 import KaKaoLogin from "react-kakao-login";
 import axios from "axios";
 import styled from "styled-components";
+import { loginReducer, initialState } from "../../store/reducers";
 import WarrenBuffet from "../Content/WarrenBuffet";
 import PortfolioAdd from "../Content/PortfolioAdd";
 import IntroPageContent from "../Content/IntroPageContent";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
-class WallHeader extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: "kakao",
-            jsKey: "af45d260886da3efeecc059923fb619e",
-            access_token: "",
-            id: "",
-            user: {},
-        };
-    }
-    componentDidMount(prevProps) {
+const WallHeader = (props) => {
+    const [state, dispatch] = useReducer(loginReducer, initialState);
+
+    const [loginInfo, setLoginInfo] = useState({
+        data: "kakao",
+        jsKey: "af45d260886da3efeecc059923fb619e",
+        access_token: "",
+        id: "",
+        user: {},
+    });
+    // constructor(props) {
+    //     super(props);
+    //     loginInfo = {
+    //         data: "kakao",
+    //         jsKey: "af45d260886da3efeecc059923fb619e",
+    //         access_token: "",
+    //         id: "",
+    //         user: {},
+    //     };
+    // }
+
+    // const responseKaKao = (res) => {
+    //     setLoginInfo({
+    //         data: res,
+    //         access_token: res.response.access_token,
+    //         id: res.profile.id,
+    //     });
+    //     console.log(JSON.stringify(loginInfo.data));
+    //     console.log(JSON.stringify(loginInfo.access_token));
+    //     axios
+    //         .post("/user/login", {
+    //             socialType: "kakao",
+    //             socialToken: res.response.access_token,
+    //         })
+    //         .then((res) => {
+    //             console.log(res);
+    //             if (res && res.status != 404) {
+    //                 console.log("response:", res);
+    //                 console.log("access_token:", res.data.accessToken);
+    //                 const token = res.data.accessToken;
+    //                 console.log("Login Successed!");
+    //                 setLoginInfo({
+    //                     data: res,
+    //                     access_token: res.data.accessToken,
+    //                     id: res.data.userId,
+    //                 });
+    //                 localStorage.setItem("user", JSON.stringify(res.data));
+    //                 console.log(
+    //                     'localStorage.getItem("user"):',
+    //                     localStorage.getItem("user")
+    //                 );
+    //             }
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         });
+    // };
+
+    useEffect(() => {
         const loggedInUser = localStorage.getItem("user");
         console.log(
             'localStorage.getItem("user")2:',
@@ -31,148 +79,141 @@ class WallHeader extends Component {
         );
         if (loggedInUser) {
             console.log("Hi");
-            console.log(loggedInUser);
-            console.log(JSON.parse(loggedInUser));
+            // console.log(loggedInUser);
+            // console.log(JSON.parse(loggedInUser));
             const foundUser = JSON.parse(loggedInUser);
             const user = foundUser;
         }
-    }
-    responseKaKao = (res) => {
-        this.setState({
-            data: res,
-            access_token: res.response.access_token,
-            id: res.profile.id,
-        });
-        console.log(JSON.stringify(this.state.data));
-        console.log(JSON.stringify(this.state.access_token));
-        axios
-            .post("/user/login", {
-                socialType: "kakao",
-                socialToken: res.response.access_token,
-            })
-            .then((res) => {
-                console.log(res);
-                if (res && res.status != 404) {
-                    console.log("response:", res);
-                    console.log("access_token:", res.data.accessToken);
-                    const token = res.data.accessToken;
-                    console.log("Login Successed!");
+    });
+    // componentDidMount(prevProps) {
+    //     const loggedInUser = localStorage.getItem("user");
+    //     console.log(
+    //         'localStorage.getItem("user")2:',
+    //         localStorage.getItem("user")
+    //     );
+    //     if (loggedInUser) {
+    //         console.log("Hi");
+    //         console.log(loggedInUser);
+    //         console.log(JSON.parse(loggedInUser));
+    //         const foundUser = JSON.parse(loggedInUser);
+    //         const user = foundUser;
+    //     }
+    // }
 
-                    this.setState({
-                        data: res,
-                        access_token: res.data.accessToken,
-                        id: res.data.userId,
-                    });
-                    // console.log(JSON.stringify(res.data))
-                    localStorage.setItem("user", JSON.stringify(res.data));
-                    console.log(
-                        'localStorage.getItem("user"):',
-                        localStorage.getItem("user")
-                    );
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+    // const handleGetUser = () => {
+    //     axios
+    //         .get("/user", {
+    //             headers: {
+    //                 Authorization: `Bearer ${loginInfo.access_token}`,
+    //             },
+    //         })
+    //         .then((res) => {
+    //             console.log(res);
+    //         });
+    // };
+
+    // const handleLogout = () => {
+    //     axios
+    //         .delete("/user/logout", {
+    //             headers: {
+    //                 Authorization: `Bearer ${loginInfo.access_token}`,
+    //             },
+    //         })
+    //         .then((res) => {
+    //             console.log(res);
+    //             setLoginInfo({
+    //                 access_token: "",
+    //                 // id: "",
+    //                 // user: {},
+    //             });
+    //         });
+    // };
+
+    const responseFail = (err) => {
+        alert("login failed", err);
     };
 
-    responseFail = (err) => {
-        alert(err);
+    const tmp = (res) => {
+        console.log("1", res);
+        // console.log()
+        dispatch({ type: "login_user", res });
+        console.log("2");
     };
 
-    render() {
-        return (
-            <header className="navbar">
-                {/* <ul>
+    return (
+        <header className="navbar">
+            {/* <ul>
                     </ul> */}
 
-                <div className="navbar__title navbar__item ">
-                    <Link to="/" className="navbar__item">
-                        <img
-                            className="brand_img"
-                            src={brandImg}
-                            alt="brand_img"
-                        />
-                        {"    "}
-                        <span className="bold_nav"> Assetlocation</span>
-                    </Link>
-                </div>
-                {/* <div className="navbar__item">
+            <div className="navbar__title navbar__item ">
+                <Link to="/" className="navbar__item">
+                    <img className="brand_img" src={brandImg} alt="brand_img" />
+                    {"    "}
+                    <span className="bold_nav"> Assetlocation</span>
+                </Link>
+            </div>
+            {/* <div className="navbar__item">
                         <Link to="/">홈</Link>
                     </div> */}
-                <div className="navbar__item">
-                    <Link to="/portfolio" className="navbar__item">
-                        포트폴리오
-                    </Link>
+            <div className="navbar__item">
+                <Link to="/portfolio" className="navbar__item">
+                    포트폴리오
+                </Link>
+            </div>
+            <div className="navbar__item">
+                <Link to="/warren" className="navbar__item">
+                    워렌버핏
+                </Link>
+            </div>
+            <div className="navbar__item">통계</div>
+            <div className="navbar__item">뉴스</div>
+            {/* <div>
+                <div
+                    className="navbar__item"
+                    onClick={() => dispatch({ type: "logout_user" })}
+                >
+                    Logout
                 </div>
-                <div className="navbar__item">
-                    <Link to="/warren" className="navbar__item">
-                        워렌버핏
-                    </Link>
+                <div
+                    className="navbar__item"
+                    onClick={() => dispatch({ type: "getuser" })}
+                >
+                    getUser
                 </div>
-                <div className="navbar__item">통계</div>
-                <div className="navbar__item">뉴스</div>
-                <div className="navbar__item">
-                    {" "}
+            </div> */}
+            <div className="navbar__item">
+                {" "}
+                {initialState.loginInfo.access_token ? (
+                    <div>
+                        <div
+                            className="navbar__item"
+                            onClick={() => dispatch({ type: "logout_user" })}
+                        >
+                            Logout
+                        </div>
+                        <div
+                            className="navbar__item"
+                            onClick={() => dispatch({ type: "getuser" })}
+                        >
+                            getUser
+                        </div>
+                    </div>
+                ) : (
+                    // <div>getuser</div>
                     <KaKaoBtn
-                        jsKey={this.state.jsKey}
+                        jsKey={loginInfo.jsKey}
                         buttonText="카카오 kakao"
-                        onSuccess={this.responseKaKao}
-                        onFailure={this.responseFail}
+                        onSuccess={tmp}
+                        // onSuccess={responseKaKao}
+                        onFailure={responseFail}
                         getProfile={true}
                     />
-                    {/* <img
-                        jsKey={"af45d260886da3efeecc059923fb619e"}
-                        // buttonText="KaKao"
-                        onSuccess={this.responseKaKao}
-                        onFailure={this.responseFail}
-                        getProfile={true}
-                        src={Kakao}
-                        alt="Kakao"
-                        className="kakao_login"
-                    /> */}
-                </div>
-                {/* </Router> */}
-            </header>
-        );
-    }
-
-    // render() {
-    //     // window.Kakao.init("af45d260886da3efeecc059923fb619e");
-    //     return (
-    //         <header className="navbar">
-    //             <div className="navbar__title navbar__item ">
-    //                 <img className="brand_img" src={brandImg} alt="brand_img" />{" "}
-    //                 Assetlocation
-    //             </div>
-    //             <div className="navbar__item">포트폴리오</div>
-    //             <div className="navbar__item">워렌버핏</div>
-    //             <div className="navbar__item">통계</div>
-    //             <div className="navbar__item">뉴스</div>
-    //             <div className="navbar__item">
-    //                 {" "}
-    //                 <KaKaoBtn
-    //                     jsKey={"2b67838751764359be17923f29aa820e"}
-    //                     buttonText="KaKao 계정으로 로그인"
-    //                     onSuccess={this.responseKaKao}
-    //                     onFailure={this.responseFail}
-    //                     getProfile={true}
-    //                 />
-    //                 {/* <img
-    //                     jsKey={"af45d260886da3efeecc059923fb619e"}
-    //                     // buttonText="KaKao"
-    //                     onSuccess={this.responseKaKao}
-    //                     onFailure={this.responseFail}
-    //                     getProfile={true}
-    //                     src={Kakao}
-    //                     alt="Kakao"
-    //                     className="kakao_login"
-    //                 /> */}
-    //             </div>
-    //         </header>
-    //     );
-    // }
-}
+                )}
+            </div>
+            {/* </Router> */}
+        </header>
+    );
+};
 
 const KaKaoBtn = styled(KaKaoLogin)`
     padding: 0;

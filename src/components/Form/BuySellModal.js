@@ -73,25 +73,30 @@ function BuySellModal({ row, setRow, closeModal, setFormData }) {
                 console.log(data);
                 setFormData(data);
                 // setRow()
-                setRow([
-                    ...row,
-                    {
-                        symbol: data.BuySellSelector.value,
-                        name: data.date,
-                        // : data["numOfStock"],
-                        cost: data.price,
-                        date: data["date"],
-                        marketValue: data.numOfStock,
-                        return: "",
-                    },
-                ]);
+                {
+                    data.BuySellSelector &&
+                        setRow([
+                            ...row,
+                            {
+                                symbol: data.BuySellSelector.value,
+                                name: data.date,
+                                // JSON.stringify(
+                                // : data["numOfStock"],
+                                cost: data.price,
+                                date: data["date"],
+                                marketValue: data.numOfStock,
+                                return: "",
+                            },
+                        ]);
+                }
+
                 closeModal();
             })}
             className="form"
         >
             <div className="form-container">
                 <section className="section-container">
-                    <label className="section-label">거래</label>
+                    <label className="section-container">거래</label>
                     <Controller
                         as={ReactSelect}
                         options={[

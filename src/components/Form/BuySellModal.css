@@ -10,11 +10,13 @@
 
 .section-container {
     left: 0px;
+    color: black;
+    /* background-color: purple; */
 }
 
-.section-label {
+/* .section-label {
     margin: 10px 0;
-}
+} */
 
 .buy-sell-add-button {
     margin-top: 100px;
