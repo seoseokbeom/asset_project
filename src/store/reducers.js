@@ -9,6 +9,18 @@ export const initialState = {
         id: "",
         user: {},
     },
+    portfolioInfo: [
+        {
+            portfolioId: "ca875074-ffc1-401b-9550-54bd3abe5f2a",
+            updateTimestamp: 1605011442,
+        },
+    ],
+};
+
+const stockAutoComplete = (res) => {
+    axios.get("/search/prefix/005").then((res) => {
+        console.log("/search/prefix/005:", res);
+    });
 };
 
 const responseKaKao = (res) => {
@@ -78,16 +90,11 @@ const handleLogout = () => {
                 ...initialState,
                 access_token: "",
             };
-            // setLoginInfo({
-            //     access_token: "",
-            //     // id: "",
-            //     // user: {},
-            // });
         });
 };
-
-export const loginReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action) => {
     switch (action.type) {
+        // User API
         case "getuser": {
             return axios
                 .get("/user", {
@@ -100,15 +107,198 @@ export const loginReducer = (state = initialState, action) => {
                 });
         }
 
+        case "refresh_token": {
+            return axios
+                .post("/user/refresh", {
+                    refreshToken: action.refreshToken,
+                    userId: action.userId,
+                    accessToken: action.accessToken,
+                })
+                .then(console.log("refresh tocken succeeded"));
+        }
         case "login_user": {
             return responseKaKao(action.res);
-            // return;
         }
 
         case "logout_user": {
             return handleLogout();
         }
+        case "delete_user": {
+            return axios.delete("/user").then(console.log("delete succeeded"));
+        }
+        // Stock API
+        case "stock_auto_complete": {
+            return axios
+                .get("/search/prefix/0057", {
+                    headers: {
+                        Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                    },
+                })
+                .then((res) => {
+                    console.log("/search/prefix/0057:", res);
+                });
+        }
+
+        case "get_now_price": {
+            return axios
+                .get(`/stock/now/${action.code}`, {
+                    headers: {
+                        Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                    },
+                })
+                .then((res) => {
+                    console.log("get_now_price:", res);
+                });
+        }
+        case "get_now_prices": {
+            return axios
+                .get(`/stock/now`, {
+                    headers: {
+                        Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                    },
+                })
+                .then((res) => {
+                    console.log("get_now_prices succeeded, res:", res);
+                });
+        }
+        case "get_now_krw_usd": {
+            return axios
+                .get("/krwusd", {
+                    headers: {
+                        Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                    },
+                })
+                .then((res) => {
+                    console.log("get_now_krw_usd:", res);
+                });
+        }
+        // Portfolio API
+        case "create_portfolio": {
+            return axios
+                .post(
+                    "/portfolio",
+                    { name: "test" },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                        },
+                    }
+                )
+                .then((res) => {
+                    console.log(
+                        "create_portfolio executed, portfolio Object:",
+                        res
+                    );
+                })
+                .catch((err) => {
+                    console.log(
+                        `initialState.loginInfo.access_token:${initialState.loginInfo.access_token}`
+                    );
+                    console.log("err:", err);
+                });
+        }
+
+        case "get_portfolio_status": {
+            return axios.get(`/portfolio/${action.portfolioId}/status`, {
+                headers: {
+                    Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                },
+            });
+        }
     }
 };
 
-// export const
+export const stockReducer = (state = initialState, action) => {
+    debugger;
+    switch (action.type) {
+        // Stock API
+        case "stock_auto_complete": {
+            return axios
+                .get("/search/prefix/0057", {
+                    headers: {
+                        Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                    },
+                })
+                .then((res) => {
+                    console.log("/search/prefix/0057:", res);
+                });
+        }
+
+        case "get_now_price": {
+            return axios
+                .get(`/stock/now/${action.code}`, {
+                    headers: {
+                        Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                    },
+                })
+                .then((res) => {
+                    console.log("get_now_price:", res);
+                });
+        }
+        case "get_now_prices": {
+            return axios
+                .get(`/stock/now`, {
+                    headers: {
+                        Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                    },
+                })
+                .then((res) => {
+                    console.log("get_now_prices succeeded, res:", res);
+                });
+        }
+        case "get_now_krw_usd": {
+            return axios
+                .get("/krwusd", {
+                    headers: {
+                        Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                    },
+                })
+                .then((res) => {
+                    console.log("get_now_krw_usd:", res);
+                });
+        }
+
+        default: {
+            console.log("stockReducer err");
+            return;
+        }
+    }
+};
+
+export const portfolioReducer = (state = initialState, action) => {
+    switch (action.type) {
+        // Portfolio API
+        case "create_portfolio": {
+            return axios
+                .post(
+                    "/portfolio",
+                    { name: "test" },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                        },
+                    }
+                )
+                .then((res) => {
+                    console.log(
+                        "create_portfolio executed, portfolio Object:",
+                        res
+                    );
+                })
+                .catch((err) => {
+                    console.log(
+                        `initialState.loginInfo.access_token:${initialState.loginInfo.access_token}`
+                    );
+                    console.log("err:", err);
+                });
+        }
+
+        case "get_portfolio_status": {
+            return axios.get(`/portfolio/${action.portfolioId}/status`, {
+                headers: {
+                    Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                },
+            });
+        }
+    }
+};

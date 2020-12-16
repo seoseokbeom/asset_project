@@ -7,22 +7,29 @@ import brandImg from "./../images/SVG/brand_icon.svg";
 import KaKaoLogin from "react-kakao-login";
 import axios from "axios";
 import styled from "styled-components";
-import { loginReducer, initialState } from "../../store/reducers";
+import {
+    userReducer,
+    stockReducer,
+    portfolioReducer,
+    initialState,
+} from "../../store/reducers";
 import WarrenBuffet from "../Content/WarrenBuffet";
 import PortfolioAdd from "../Content/PortfolioAdd";
 import IntroPageContent from "../Content/IntroPageContent";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 const WallHeader = (props) => {
-    const [state, dispatch] = useReducer(loginReducer, initialState);
+    const [state, dispatch] = useReducer(userReducer, initialState);
 
-    const [loginInfo, setLoginInfo] = useState({
-        data: "kakao",
-        jsKey: "af45d260886da3efeecc059923fb619e",
-        access_token: "",
-        id: "",
-        user: {},
-    });
+    // stockReducer,
+    //     portfolioReducer,
+    // const [loginInfo, setLoginInfo] = useState({
+    //     data: "kakao",
+    //     jsKey: "af45d260886da3efeecc059923fb619e",
+    //     access_token: "",
+    //     id: "",
+    //     user: {},
+    // });
     // constructor(props) {
     //     super(props);
     //     loginInfo = {
@@ -141,11 +148,17 @@ const WallHeader = (props) => {
     };
 
     return (
-        <header className="navbar">
+        <header
+            className="navbar"
+            // onClick={() => dispatch({ type: "stock_auto_complete" })}
+        >
             {/* <ul>
                     </ul> */}
 
-            <div className="navbar__title navbar__item ">
+            <div
+                className="navbar__title navbar__item"
+                onClick={() => dispatch({ type: "create_portfolio" })}
+            >
                 <Link to="/" className="navbar__item">
                     <img className="brand_img" src={brandImg} alt="brand_img" />
                     {"    "}
@@ -155,7 +168,11 @@ const WallHeader = (props) => {
             {/* <div className="navbar__item">
                         <Link to="/">홈</Link>
                     </div> */}
-            <div className="navbar__item">
+            <div
+                className="navbar__item"
+                onClick={() => dispatch({ type: "stock_auto_complete" })}
+                // onClick={() => dispatch({ type: "stock_auto_complete" })}
+            >
                 <Link to="/portfolio" className="navbar__item">
                     포트폴리오
                 </Link>
@@ -165,7 +182,12 @@ const WallHeader = (props) => {
                     워렌버핏
                 </Link>
             </div>
-            <div className="navbar__item">통계</div>
+            <div
+                className="navbar__item"
+                onClick={() => dispatch({ type: "get_now_price", code: "qqq" })}
+            >
+                통계
+            </div>
             <div className="navbar__item">뉴스</div>
             {/* <div>
                 <div
@@ -201,7 +223,7 @@ const WallHeader = (props) => {
                 ) : (
                     // <div>getuser</div>
                     <KaKaoBtn
-                        jsKey={loginInfo.jsKey}
+                        jsKey={initialState.loginInfo.jsKey}
                         buttonText="카카오 kakao"
                         onSuccess={tmp}
                         // onSuccess={responseKaKao}
