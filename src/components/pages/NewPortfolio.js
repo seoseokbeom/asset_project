@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useReducer } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import axios from "axios";
+import { userReducer, initialState } from "../../store/reducers";
 import "./newForm.css";
 
 const NewPortfolio = () => {
+    const [state, dispatch] = useReducer(userReducer, initialState);
+
     let history = useHistory();
     const onSubmit = (data) => {
         alert(JSON.stringify(data));
-        createPortfolio();
+        // createPortfolio();
+        dispatch({ type: "create_portfolio", payload: data.portfolio_name });
         history.push("/portfolio", { data, id: 7, color: "green" });
     };
 
@@ -23,18 +27,18 @@ const NewPortfolio = () => {
         },
     });
 
-    const createPortfolio = () => {
-        axios
-            .post("/portfolio", {
-                name: "testportfolioname",
-                headers: {
-                    Authorization: `Bearer ${this.state.access_token}`,
-                },
-            })
-            .then((res) => {
-                console.log(res);
-            });
-    };
+    // const createPortfolio = () => {
+    //     axios
+    //         .post("/portfolio", {
+    //             name: "testportfolioname",
+    //             headers: {
+    //                 Authorization: `Bearer ${this.state.access_token}`,
+    //             },
+    //         })
+    //         .then((res) => {
+    //             console.log(res);
+    //         });
+    // };
 
     return (
         <div>

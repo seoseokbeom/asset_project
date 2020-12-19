@@ -29,7 +29,7 @@ const responseKaKao = (res) => {
     console.log("res:", res);
     initialState.loginInfo = {
         ...initialState,
-        data: res,
+        // data: res,
         access_token: res.response.access_token,
         id: res.profile.id,
     };
@@ -51,12 +51,12 @@ const responseKaKao = (res) => {
             if (res && res.status != 404) {
                 console.log("response:", res);
                 console.log("access_token:", res.data.accessToken);
-                const token = res.data.accessToken;
+                // const token = res.data.accessToken;
                 console.log("Login Successed!");
 
                 initialState.loginInfo = {
                     ...initialState.loginInfo,
-                    data: res,
+                    // data: res,
                     access_token: res.data.accessToken,
                     id: res.data.userId,
                 };
@@ -87,10 +87,14 @@ const handleLogout = () => {
         .then((res) => {
             console.log(res);
             initialState.loginInfo = {
-                ...initialState,
+                ...initialState.loginInfo,
                 access_token: "",
+                id: "",
             };
-        });
+            console.log("logout succeeded");
+            console.log("initialState.loginInfo:", initialState.loginInfo);
+        })
+        .catch(console.log("err"));
 };
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -177,7 +181,7 @@ export const userReducer = (state = initialState, action) => {
             return axios
                 .post(
                     "/portfolio",
-                    { name: "test" },
+                    { name: action.payload },
                     {
                         headers: {
                             Authorization: `Bearer ${initialState.loginInfo.access_token}`,
@@ -194,16 +198,24 @@ export const userReducer = (state = initialState, action) => {
                     console.log(
                         `initialState.loginInfo.access_token:${initialState.loginInfo.access_token}`
                     );
-                    console.log("err:", err);
+                    console.log("create_portfolio err:", err);
                 });
         }
 
         case "get_portfolio_status": {
-            return axios.get(`/portfolio/${action.portfolioId}/status`, {
-                headers: {
-                    Authorization: `Bearer ${initialState.loginInfo.access_token}`,
-                },
-            });
+            return axios
+                .get(`/portfolio/${action.portfolioId}/status`, {
+                    headers: {
+                        Authorization: `Bearer ${initialState.loginInfo.access_token}`,
+                    },
+                })
+                .then((res) => {
+                    console.log("---", res);
+                })
+                .catch((res) => {
+                    console.log("err", res);
+                    console.log("${action.portfolioId}", action.portfolioId);
+                });
         }
     }
 };

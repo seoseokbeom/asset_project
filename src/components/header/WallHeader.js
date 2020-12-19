@@ -7,12 +7,7 @@ import brandImg from "./../images/SVG/brand_icon.svg";
 import KaKaoLogin from "react-kakao-login";
 import axios from "axios";
 import styled from "styled-components";
-import {
-    userReducer,
-    stockReducer,
-    portfolioReducer,
-    initialState,
-} from "../../store/reducers";
+import { userReducer, initialState } from "../../store/reducers";
 import WarrenBuffet from "../Content/WarrenBuffet";
 import PortfolioAdd from "../Content/PortfolioAdd";
 import IntroPageContent from "../Content/IntroPageContent";
@@ -20,63 +15,6 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 const WallHeader = (props) => {
     const [state, dispatch] = useReducer(userReducer, initialState);
-
-    // stockReducer,
-    //     portfolioReducer,
-    // const [loginInfo, setLoginInfo] = useState({
-    //     data: "kakao",
-    //     jsKey: "af45d260886da3efeecc059923fb619e",
-    //     access_token: "",
-    //     id: "",
-    //     user: {},
-    // });
-    // constructor(props) {
-    //     super(props);
-    //     loginInfo = {
-    //         data: "kakao",
-    //         jsKey: "af45d260886da3efeecc059923fb619e",
-    //         access_token: "",
-    //         id: "",
-    //         user: {},
-    //     };
-    // }
-
-    // const responseKaKao = (res) => {
-    //     setLoginInfo({
-    //         data: res,
-    //         access_token: res.response.access_token,
-    //         id: res.profile.id,
-    //     });
-    //     console.log(JSON.stringify(loginInfo.data));
-    //     console.log(JSON.stringify(loginInfo.access_token));
-    //     axios
-    //         .post("/user/login", {
-    //             socialType: "kakao",
-    //             socialToken: res.response.access_token,
-    //         })
-    //         .then((res) => {
-    //             console.log(res);
-    //             if (res && res.status != 404) {
-    //                 console.log("response:", res);
-    //                 console.log("access_token:", res.data.accessToken);
-    //                 const token = res.data.accessToken;
-    //                 console.log("Login Successed!");
-    //                 setLoginInfo({
-    //                     data: res,
-    //                     access_token: res.data.accessToken,
-    //                     id: res.data.userId,
-    //                 });
-    //                 localStorage.setItem("user", JSON.stringify(res.data));
-    //                 console.log(
-    //                     'localStorage.getItem("user"):',
-    //                     localStorage.getItem("user")
-    //                 );
-    //             }
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         });
-    // };
 
     useEffect(() => {
         const loggedInUser = localStorage.getItem("user");
@@ -86,56 +24,9 @@ const WallHeader = (props) => {
         );
         if (loggedInUser) {
             console.log("Hi");
-            // console.log(loggedInUser);
-            // console.log(JSON.parse(loggedInUser));
-            const foundUser = JSON.parse(loggedInUser);
-            const user = foundUser;
+            console.log("state:", state);
         }
     });
-    // componentDidMount(prevProps) {
-    //     const loggedInUser = localStorage.getItem("user");
-    //     console.log(
-    //         'localStorage.getItem("user")2:',
-    //         localStorage.getItem("user")
-    //     );
-    //     if (loggedInUser) {
-    //         console.log("Hi");
-    //         console.log(loggedInUser);
-    //         console.log(JSON.parse(loggedInUser));
-    //         const foundUser = JSON.parse(loggedInUser);
-    //         const user = foundUser;
-    //     }
-    // }
-
-    // const handleGetUser = () => {
-    //     axios
-    //         .get("/user", {
-    //             headers: {
-    //                 Authorization: `Bearer ${loginInfo.access_token}`,
-    //             },
-    //         })
-    //         .then((res) => {
-    //             console.log(res);
-    //         });
-    // };
-
-    // const handleLogout = () => {
-    //     axios
-    //         .delete("/user/logout", {
-    //             headers: {
-    //                 Authorization: `Bearer ${loginInfo.access_token}`,
-    //             },
-    //         })
-    //         .then((res) => {
-    //             console.log(res);
-    //             setLoginInfo({
-    //                 access_token: "",
-    //                 // id: "",
-    //                 // user: {},
-    //             });
-    //         });
-    // };
-
     const responseFail = (err) => {
         alert("login failed", err);
     };
@@ -148,13 +39,7 @@ const WallHeader = (props) => {
     };
 
     return (
-        <header
-            className="navbar"
-            // onClick={() => dispatch({ type: "stock_auto_complete" })}
-        >
-            {/* <ul>
-                    </ul> */}
-
+        <header className="navbar">
             <div
                 className="navbar__title navbar__item"
                 onClick={() => dispatch({ type: "create_portfolio" })}
@@ -171,7 +56,6 @@ const WallHeader = (props) => {
             <div
                 className="navbar__item"
                 onClick={() => dispatch({ type: "stock_auto_complete" })}
-                // onClick={() => dispatch({ type: "stock_auto_complete" })}
             >
                 <Link to="/portfolio" className="navbar__item">
                     포트폴리오
@@ -203,7 +87,10 @@ const WallHeader = (props) => {
                     getUser
                 </div>
             </div> */}
-            <div className="navbar__item">
+            <div
+                className="navbar__item"
+                key={initialState.loginInfo.access_token}
+            >
                 {" "}
                 {initialState.loginInfo.access_token ? (
                     <div>
@@ -221,7 +108,6 @@ const WallHeader = (props) => {
                         </div>
                     </div>
                 ) : (
-                    // <div>getuser</div>
                     <KaKaoBtn
                         jsKey={initialState.loginInfo.jsKey}
                         buttonText="카카오 kakao"

@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useReducer } from "react";
 import { useTable } from "react-table";
 import styled from "styled-components";
 import PortfolioAdd from "../Content/PortfolioAdd";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import axios from "axios";
 
 import "./table.css";
+import { initialState, userReducer } from "../../store/reducers";
 
 export const columns = [
     {
@@ -33,6 +33,7 @@ export const columns = [
 function PortfolioManageContent() {
     // const columns = useMemo(() => columns, []);
     // const data = useMemo(() => data, []);
+    const [state, dispatch] = useReducer(userReducer, initialState);
 
     const [row, setRow] = useState([
         {
@@ -57,19 +58,6 @@ function PortfolioManageContent() {
         data,
     });
 
-    const createPortfolio = () => {
-        axios
-            .post("/portfolio", {
-                name: "testportfolioname",
-                headers: {
-                    Authorization: `Bearer ${this.state.access_token}`,
-                },
-            })
-            .then((res) => {
-                console.log(res);
-            });
-    };
-
     const handleAddRow = () => {
         const item = {
             symbol: "gggss",
@@ -84,11 +72,16 @@ function PortfolioManageContent() {
         // });
         console.log(row);
     };
+
+    const getPortfolioStatus = () => {
+        dispatch({ type: "get_portfolio_status" });
+    };
+
     return (
         <Background>
             <Container2>
                 <WatchListContainer>
-                    <div className="watchlist">
+                    <div className="watchlist" onClick={getPortfolioStatus}>
                         포트폴리오 {"            "}
                         <Link to="/portfolio/add">
                             <span className="portfolio_add">
