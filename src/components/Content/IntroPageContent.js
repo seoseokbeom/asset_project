@@ -23,7 +23,7 @@ const IntroPageContent = () => (
                 />
             </div>
         </PortfolioImg>
-        <div>Hi</div>
+        {/* <div>Hi</div> */}
     </Container>
 );
 

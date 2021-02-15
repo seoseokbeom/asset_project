@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
@@ -6,39 +6,57 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import axios from "axios";
 import { userReducer, initialState } from "../../store/reducers";
 import "./newForm.css";
+import { GlobalContext } from "../../store/GlobalState";
+import PortfolioManage from "../../components/pages/PortfolioManage";
 
 const NewPortfolio = () => {
-    const [state, dispatch] = useReducer(userReducer, initialState);
+    // const [state, dispatch] = useReducer(userReducer, initialState);
+    const { userState, userDispatch, stockDispatch } = useContext(
+        GlobalContext
+    );
 
     let history = useHistory();
     const onSubmit = (data) => {
-        alert(JSON.stringify(data));
-        // createPortfolio();
-        dispatch({ type: "create_portfolio", payload: data.portfolio_name });
-        history.push("/portfolio", { data, id: 7, color: "green" });
+        // data.preventDefault();
+        console.log("data.portfolio_name:", data.portfolio_name);
+        // alert(JSON.stringify(data));
+        axios
+            .post(
+                "/portfolio",
+                { name: data.portfolio_name },
+                {
+                    headers: {
+                        Authorization: `Bearer ${userState.loginInfo.access_token}`,
+                    },
+                }
+            )
+            .then((res) => {
+                console.log(res);
+                {
+                    history.push("/portfolio");
+                }
+                // <Link to="/portfolio"></Link>;
+                // <Route exact path="/portfolio" component={PortfolioManage} />;
+                return <PortfolioManage />;
+            })
+            .catch(() => {
+                console.log("err");
+            });
+        // userDispatch({
+        //     type: "create_portfolio",
+        //     payload: data.portfolio_name    ,
+        // });
+        // history.push("/portfolio", { data, id: 7, color: "green" });
     };
 
     const { register, handleSubmit } = useForm({
-        defaultValues: {
-            firstName: "bill",
-            lastName: "luo",
-            email: "test@test.com",
-            isDeveloper: true,
-        },
+        // defaultValues: {
+        //     firstName: "bill",
+        //     lastName: "luo",
+        //     email: "test@test.com",
+        //     isDeveloper: true,
+        // },
     });
-
-    // const createPortfolio = () => {
-    //     axios
-    //         .post("/portfolio", {
-    //             name: "testportfolioname",
-    //             headers: {
-    //                 Authorization: `Bearer ${this.state.access_token}`,
-    //             },
-    //         })
-    //         .then((res) => {
-    //             console.log(res);
-    //         });
-    // };
 
     return (
         <div>

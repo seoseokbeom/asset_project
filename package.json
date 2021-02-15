@@ -19,6 +19,7 @@
     "date-fns": "^2.16.1",
     "fetch": "^1.1.0",
     "focus-trap-react": "^8.1.1",
+    "immer": "^8.0.0",
     "ldm": "^0.9.0",
     "lightweight-charts": "^3.1.5",
     "namor": "^2.0.2",

@@ -60,13 +60,13 @@ function BuySellModal({ row, setRow, closeModal, setFormData }) {
     //         className="form"
     //     ></form>
 
-    const item = {
-        symbol: "aaaaa",
-        name: "",
-        cost: "",
-        marketValue: "",
-        return: "",
-    };
+    // const item = {
+    //     symbol: "aaaaa",
+    //     name: "",
+    //     cost: "",
+    //     marketValue: "",
+    //     return: "",
+    // };
     return (
         <form
             onSubmit={handleSubmit((data) => {
@@ -95,6 +95,20 @@ function BuySellModal({ row, setRow, closeModal, setFormData }) {
             className="form"
         >
             <div className="form-container">
+                <section>
+                    <label className="section-container">티커</label>
+                    <div />
+                    <Controller
+                        as={NumberFormat}
+                        thousandSeparator
+                        // type="number"
+                        name="price"
+                        className="input"
+                        control={control}
+                        // onClick={}
+                        //   onClick={this.props.closeModal}
+                    />
+                </section>
                 <section className="section-container">
                     <label className="section-container">거래</label>
                     <Controller
@@ -109,17 +123,7 @@ function BuySellModal({ row, setRow, closeModal, setFormData }) {
                     />
                     <hr />
                 </section>
-                <section>
-                    <label className="section-container">수량</label>
-                    <input
-                        type="number"
-                        name="numOfStock"
-                        className="input"
-                        defaultValue="0"
-                        ref={register}
-                    />
-                    <hr />
-                </section>
+
                 {/* <DatePickerExample /> */}
                 <section>
                     <label className="section-container">날짜</label>
@@ -141,6 +145,17 @@ function BuySellModal({ row, setRow, closeModal, setFormData }) {
                         value={action}
                         // defaultValue="0"
                         className="disable"
+                        ref={register}
+                    />
+                    <hr />
+                </section>
+                <section>
+                    <label className="section-container">수량</label>
+                    <input
+                        type="number"
+                        name="numOfStock"
+                        className="input"
+                        defaultValue="0"
                         ref={register}
                     />
                     <hr />

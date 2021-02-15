@@ -1,11 +1,14 @@
-import React, { useMemo, useState, useReducer } from "react";
+import React, { useState, useReducer, useContext, useEffect } from "react";
 import { useTable } from "react-table";
 import styled from "styled-components";
 import PortfolioAdd from "../Content/PortfolioAdd";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-
+import axios from "axios";
 import "./table.css";
-import { initialState, userReducer } from "../../store/reducers";
+import produce from "immer";
+
+// import { initialState, userReducer } from "../../store/reducers";
+import { GlobalContext } from "../../store/GlobalState";
 
 export const columns = [
     {
@@ -31,9 +34,75 @@ export const columns = [
 ];
 
 function PortfolioManageContent() {
-    // const columns = useMemo(() => columns, []);
-    // const data = useMemo(() => data, []);
-    const [state, dispatch] = useReducer(userReducer, initialState);
+    const { userState, userDispatch, stockDispatch } = useContext(
+        GlobalContext
+    );
+    const [userId, setUserId] = useState([]);
+    const [portfolioInfo, setPortfolioInfo] = useState([]);
+
+    async function getUser(ID) {
+        try {
+            const response = await axios.get(`/portfolio/${ID}`, {
+                headers: {
+                    Authorization: `Bearer ${userState.loginInfo.access_token}`,
+                },
+            });
+            console.log("response:", response);
+        } catch (error) {
+            console.log("err:", error);
+        }
+    }
+    useEffect(() => {
+        axios
+            .get("/user", {
+                headers: {
+                    Authorization: `Bearer ${userState.loginInfo.access_token}`,
+                },
+            })
+            .then((res) => {
+                console.log("getuser succeed1:", res.data);
+                console.log("getuser succeed2:", res.data.portfolios);
+                setUserId(() => [...res.data.portfolios]);
+
+                return userId;
+            })
+            .then((res) => {
+                // res.map((ID) => {
+                //     setInterval(getUser(ID), 1000);
+                // });
+                // console.log("res:", res);
+                // userId.map((ID) => {
+                //     setInterval(getUser(ID), 1000);
+                // });
+            })
+            .catch((err) => console.log("err:", err));
+    }, []);
+
+    useEffect(() => {
+        console.log("userId:", userId);
+        // console.log("now state:", userState);
+        userId.map((ID) => {
+            axios
+                .get(`/portfolio/${ID}`, {
+                    headers: {
+                        Authorization: `Bearer ${userState.loginInfo.access_token}`,
+                    },
+                })
+                .then((res) => {
+                    setPortfolioInfo(
+                        (currState) => [...currState, res],
+                        console.log("portfolioINFO:", portfolioInfo)
+                    );
+                    // console.log("portfolio/ res:", res);
+                    // console.log("portfolioINFO:", portfolioInfo);
+                });
+            // .then(console.log("portfolioINFO:", portfolioInfo));
+        });
+    }, [userId]);
+
+    useEffect(() => {
+        console.log("portfolioINFO2:", portfolioInfo);
+    }, [portfolioInfo]);
 
     const [row, setRow] = useState([
         {
@@ -67,21 +136,27 @@ function PortfolioManageContent() {
             return: "",
         };
         setRow([...row, item]);
-        // this.setState({
-        //     rows: [...this.state.rows, item],
-        // });
         console.log(row);
     };
-
-    const getPortfolioStatus = () => {
-        dispatch({ type: "get_portfolio_status" });
+    const ab = (props) => {
+        const value = props.value;
+        value.map((id) => {
+            <Container3
+                style={{
+                    fontWeight: "bold",
+                }}
+            >
+                포트폴리오
+            </Container3>;
+            <br />;
+        });
     };
 
     return (
         <Background>
             <Container2>
                 <WatchListContainer>
-                    <div className="watchlist" onClick={getPortfolioStatus}>
+                    <div className="watchlist">
                         포트폴리오 {"            "}
                         <Link to="/portfolio/add">
                             <span className="portfolio_add">
@@ -90,7 +165,112 @@ function PortfolioManageContent() {
                         </Link>
                     </div>
                 </WatchListContainer>
-                <Link
+                {portfolioInfo.map((res) => {
+                    console.log("res.data.name:", res.data.name);
+                    return (
+                        <Link
+                            to={`/portfolio/diverse/${res.data.portfolioId}`}
+                            style={{ textDecoration: "none" }}
+                        >
+                            <Container3
+                                style={{
+                                    color: "black",
+                                }}
+                            >
+                                {res.data.name}
+                            </Container3>
+                        </Link>
+                    );
+                })}
+                {/* {portfolioInfo.map((portfolioData) => {
+                    console.log("portfolioData:", portfolioData);
+                    <Container3>{portfolioData.data.name}</Container3>;
+                })} */}
+
+                {/* {console.log("userId:", userId)} */}
+                {/* {console.log(
+                    "userState.portfolioInfo:",
+                    userState.portfolioInfo
+                )} */}
+                {/* {userState.portfolioInfo.map((obj) => (
+                    <Container3>{obj.portfolioName}</Container3>
+                ))} */}
+                {/* {userId.map(
+                    (portfolioId) => (
+                        // <span>{portfolioId}</span>
+                        <Container3>{portfolioId}</Container3>
+                    )
+                    // axios
+                    //     .get(`/portfolio/${portfolioId}`, {
+                    //         headers: {
+                    //             Authorization: `Bearer ${userState.loginInfo.access_token}`,
+                    //         },
+                    //     })
+                    //     .then((res) => {
+                    //         console.log("res:", res);
+                    //         // <Container3>sdf</Container3>;
+                    //     })
+                    //     .catch((err) => console.log("err"))
+                )} */}
+                {/* {userId.map((id) =>
+                    axios
+                        .get(`/portfolio/${id}`, {
+                            headers: {
+                                Authorization: `Bearer ${userState.loginInfo.access_token}`,
+                            },
+                        })
+                        .then((res) => {
+                            console.log("userid portfolio info:", res);
+                        })
+                        .catch((err) => console.log(err))
+                )} */}
+
+                {/* {userId.length &&
+                    userId.map((id) =>
+                        axios
+                            .get(`/portfolio/${id}`, {
+                                headers: {
+                                    Authorization: `Bearer ${userState.loginInfo.access_token}`,
+                                },
+                            })
+                            .then((res) => {
+                                console.log("res:", res);
+                                <p>{res.data.owner}</p>;
+                            })
+                    )} */}
+                {/* <Container3>a</Container3>
+                <Container3>b</Container3> */}
+                {/* {userState.portfolioIdList.map(
+                    (id) =>
+                        axios
+                            .get(`/portfolio/${id}`, {
+                                headers: {
+                                    Authorization: `Bearer ${userState.loginInfo.access_token}`,
+                                },
+                            })
+                            .then((res) => {
+                                console.log("getPortfolio succeed:", res);
+                                // userState = {
+                                //     ...userState,
+                                //     portfolioIdList: res.data.portfolios,
+                                // };
+                            })
+                    // .then((res) => {
+                    //     console.log("now state:", userState);
+                    //     <Container3>{id}</Container3>;
+                    // })
+                )} */}
+                {/* {ab} */}
+                {/* <Container3  */}
+                {/* {ab} */}
+                {/* <Container3
+                    style={{
+                        fontWeight: "bold",
+                    }}
+                >
+                    포트폴리오
+                </Container3> */}
+                {/* <Link
                     to="/portfolio/diverse"
                     style={{
                         textDecoration: "none",
@@ -104,7 +284,7 @@ function PortfolioManageContent() {
                     >
                         내가만든포트폴리오1
                     </Container3>
-                </Link>
+                </Link> */}
                 {/* <PortfolioAdd row={row} setRow={setRow} />
                 <table {...getTableProps()}>
                     <thead>
@@ -152,7 +332,7 @@ function PortfolioManageContent() {
 }
 
 const Container3 = styled.div`
-    margin: 0 20px;
+    margin: 20px 20px;
     height: 130px;
     width: 100%;
     background-color: white;

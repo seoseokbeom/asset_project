@@ -1,34 +1,39 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useTable } from "react-table";
 import styled from "styled-components";
 import PortfolioAdd from "../Content/PortfolioAdd";
+import { useParams } from "react-router-dom";
+import AddCategory from "../Form/AddCategory";
+import EasyTable from "../Tables/EasyTable";
+import CashTable from "../Tables/CashTable";
+import StockAutoCompleteSearchBar from "../Form/StockAutoCompleteSearchBar";
 
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
-import "./table.css";
+// import "./table.css";
 
-export const columns = [
-    {
-        Header: "종목코드",
-        accessor: "symbol",
-    },
-    {
-        Header: "종목명",
-        accessor: "name",
-    },
-    {
-        Header: "비용",
-        accessor: "cost",
-    },
-    {
-        Header: "평가금액",
-        accessor: "marketValue",
-    },
-    {
-        Header: "수익률",
-        accessor: "return",
-    },
-];
+// export const columns = [
+//     {
+//         Header: "종목코드",
+//         accessor: "symbol",
+//     },
+//     {
+//         Header: "종목명",
+//         accessor: "name",
+//     },
+//     {
+//         Header: "비용",
+//         accessor: "cost",
+//     },
+//     {
+//         Header: "평가금액",
+//         accessor: "marketValue",
+//     },
+//     {
+//         Header: "수익률",
+//         accessor: "return",
+//     },
+// ];
 
 const DiversifiedPortfolio = () => {
     const [row, setRow] = useState([
@@ -42,16 +47,21 @@ const DiversifiedPortfolio = () => {
     ]);
 
     const data = row;
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        footerGroups,
-        rows,
-        prepareRow,
-    } = useTable({
-        columns,
-        data,
+    // const {
+    //     getTableProps,
+    //     getTableBodyProps,
+    //     headerGroups,
+    //     footerGroups,
+    //     rows,
+    //     prepareRow,
+    // } = useTable({
+    //     columns,
+    //     data,
+    // });
+    const { id } = useParams();
+
+    useEffect(() => {
+        console.log("diverse:", id);
     });
 
     const handleAddRow = () => {
@@ -75,12 +85,27 @@ const DiversifiedPortfolio = () => {
                     <WatchListContainer>
                         <div className="watchlist">
                             포트폴리오 {"            "}
-                            <Link to="/portfolio/add">
+                            {/* <Link to="/portfolio/add">
                                 <span className="portfolio_add">
                                     +새로운 포트폴리오
                                 </span>
-                            </Link>
+                            </Link> */}
                         </div>
+
+                        <StockAutoCompleteSearchBar
+                            suggestions={[
+                                "Alligator",
+                                "Bask",
+                                "Crocodilian",
+                                // "Death Roll",
+                                // "Eggs",
+                                // "Jaws",
+                                // "Reptile",
+                                // "Solitary",
+                                // "Tail",
+                                // "Wetlands",
+                            ]}
+                        />
                     </WatchListContainer>
                     <FlexContainer>
                         <div className="divbox">
@@ -114,7 +139,24 @@ const DiversifiedPortfolio = () => {
                     </FlexContainer>
 
                     <PortfolioAdd row={row} setRow={setRow} />
-                    <table {...getTableProps()}>
+                    <AddCategory id={id} />
+                    <EasyTable
+                        title="한국 주식"
+                        ticker="AAPL"
+                        stockName="apple"
+                    />
+                    {/* <EasyTable
+                        title="한국 주식"
+                        ticker="AAPL"
+                        stockName="apple"
+                    /> */}
+                    <CashTable
+                        id={id}
+                        title="한국 주식"
+                        ticker="AAPL"
+                        stockName="apple"
+                    />
+                    {/* <table {...getTableProps()}>
                         <thead>
                             {headerGroups.map((headerGroup) => (
                                 <tr {...headerGroup.getHeaderGroupProps()}>
@@ -154,6 +196,50 @@ const DiversifiedPortfolio = () => {
                             ))}
                         </tfoot>
                     </table>
+                    <hr />
+                    <br />
+                    <br />
+                    <br />
+                    <table {...getTableProps()}>
+                        <thead>
+                            {headerGroups.map((headerGroup) => (
+                                <tr {...headerGroup.getHeaderGroupProps()}>
+                                    {headerGroup.headers.map((column) => (
+                                        <th {...column.getHeaderProps()}>
+                                            {column.render("Header")}
+                                        </th>
+                                    ))}
+                                </tr>
+                            ))}
+                        </thead>
+                        <tbody {...getTableBodyProps()}>
+                            {rows.map((row) => {
+                                prepareRow(row);
+                                return (
+                                    <tr {...row.getRowProps()}>
+                                        {row.cells.map((cell) => {
+                                            return (
+                                                <td {...cell.getCellProps()}>
+                                                    {cell.render("Cell")}
+                                                </td>
+                                            );
+                                        })}
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                        <tfoot>
+                            {footerGroups.map((footerGroup) => (
+                                <tr {...footerGroup.getFooterGroupProps()}>
+                                    {footerGroup.headers.map((column) => (
+                                        <td {...column.getFooterProps()}>
+                                            {column.render("Footer")}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tfoot>
+                    </table> */}
                 </Container2>
             </Background>
         </div>

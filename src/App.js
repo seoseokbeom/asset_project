@@ -20,16 +20,7 @@ import BuySellModal from "./components/Form/BuySellModal";
 import ModalPopup from "./components/Form/ModalPopup";
 import DatePickerExample from "./components/Form/DatePickerExample";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-
-const Counter = () => {
-    return (
-        <div>
-            <h1>여기엔 숫자를 담자</h1>
-            <button>+ 1</button>
-            <button>- 1</button>
-        </div>
-    );
-};
+import { GlobalProvider } from "./store/GlobalState";
 
 function App() {
     const triggerText = "+";
@@ -39,54 +30,56 @@ function App() {
         console.log(event.target.email.value);
     };
     return (
-        <div
-            className="App"
-            // style={{
-            //     position: "absolute",
-            //     left: "50%",
-            //     top: "50%",
-            //     transform: "translate(-50%, -50%)",
-            // }}
-        >
-            <Router>
-                <WallHeader />
+        <GlobalProvider>
+            <div
+                className="App"
+                // style={{
+                //     position: "absolute",
+                //     left: "50%",
+                //     top: "50%",
+                //     transform: "translate(-50%, -50%)",
+                // }}
+            >
+                <Router>
+                    <WallHeader />
 
-                <Switch>
-                    <Route exact path="/" component={IntroPageContent} />
-                    <Route
-                        exact
-                        path="/portfolio"
-                        component={PortfolioManage}
-                    />
-                    <Route
-                        exact
-                        path="/portfolio/add"
-                        component={NewPortfolio}
-                    />
-                    <Route
-                        exact
-                        path="/portfolio/diverse"
-                        component={DiversifiedPortfolio}
-                    />
-                    <Route exact path="/warren" component={WarrenBuffet} />;
-                    {/* component={WarrenBuffet} */}
-                </Switch>
+                    <Switch>
+                        <Route exact path="/" component={IntroPageContent} />
+                        <Route
+                            exact
+                            path="/portfolio"
+                            component={PortfolioManage}
+                        />
+                        <Route
+                            exact
+                            path="/portfolio/add"
+                            component={NewPortfolio}
+                        />
+                        <Route
+                            exact
+                            path="/portfolio/diverse/:id"
+                            component={DiversifiedPortfolio}
+                        />
+                        <Route exact path="/warren" component={WarrenBuffet} />;
+                        {/* component={WarrenBuffet} */}
+                    </Switch>
 
-                {/* <Logo /> */}
-                {/* <DatePickerExample /> */}
-                {/* <BuySellModal /> */}
-                {/* <Counter /> */}
-                {/* <IntroPageContent /> */}
-                {/* <ModalPopup triggerText={triggerText} onSubmit={onSubmit} /> */}
-                {/* <ChartContainer>
+                    {/* <Logo /> */}
+                    {/* <DatePickerExample /> */}
+                    {/* <BuySellModal /> */}
+                    {/* <Counter /> */}
+                    {/* <IntroPageContent /> */}
+                    {/* <ModalPopup triggerText={triggerText} onSubmit={onSubmit} /> */}
+                    {/* <ChartContainer>
                     <Img src={buffett} />
                     <Doughnut />
                     <BuffetTable />
                 </ChartContainer> */}
-                <StockChart />
-                {/* <PortfolioManage /> */}
-            </Router>
-        </div>
+                    <StockChart />
+                    {/* <PortfolioManage /> */}
+                </Router>
+            </div>
+        </GlobalProvider>
     );
     const [items, setItems] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -118,8 +111,8 @@ function App() {
             </div>
         );
     }
-    // return <div className="App"></div>;
 }
+// return <div className="App"></div>;
 
 const ChartContainer = styled.div`
     margin-left: auto;
