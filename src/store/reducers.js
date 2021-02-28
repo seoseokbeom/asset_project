@@ -3,22 +3,6 @@ import axios from "axios";
 import produce from "immer";
 import { GlobalContext } from "./GlobalState";
 
-// export const initialState = {
-//     loginInfo: {
-//         data: "kakao",
-//         jsKey: "af45d260886da3efeecc059923fb619e",
-//         access_token: "",
-//         id: "",
-//         user: {},
-//     },
-//     portfolioInfo: [
-//         {
-//             portfolioId: "ca875074-ffc1-401b-9550-54bd3abe5f2a",
-//             updateTimestamp: 1605011442,
-//         },
-//     ],
-// };
-
 const stockAutoComplete = (res) => {
     axios.get("/search/prefix/005").then((res) => {
         console.log("/search/prefix/005:", res);
@@ -104,25 +88,94 @@ export const userReducer = (state, action) => {
         }
 
         case "userState_portfolio_update": {
-            // return {
-            //     ...state,
-            //     portfolioIdList: ["hi"],
-            // };
             return produce(state, (draft) => {
                 console.log("action,action", action);
                 draft.portfolioIdList = action.portfolios2;
-                // for (var i = 0; i < action.portfolios.length; i++) {
-                //     draft.portfolioIdList.push(action.portfolios[i]);
-                // }
                 console.log("userState_portfolio_update:", state);
-                // draft.portfolioIdList = action.portfolios;
-                // draft.portfolioInfo.id = action.id;
             });
+        }
 
-            // return {
-            //     ...state,
-            //     portfolioIdList: action.portfolios,
-            // };
+        case "krw_cost_update": {
+            return {
+                ...state,
+                krwCost: state.krwCost + action.cost,
+            };
+        }
+        case "krw_cost_zero": {
+            return {
+                ...state,
+                krwCost: 0,
+            };
+        }
+
+        case "krw_real_time_value_update": {
+            return {
+                ...state,
+                krwRealTimeValue: state.krwRealTimeValue + action.payload,
+            };
+        }
+        case "krw_real_time_value_zero": {
+            return {
+                ...state,
+                krwRealTimeValue: 0,
+            };
+        }
+        case "krw_today_value_update": {
+            return {
+                ...state,
+                krwTodayEarnValue: state.krwTodayEarnValue + action.payload,
+            };
+        }
+        case "krw_today_value_zero": {
+            return {
+                ...state,
+                krwTodayEarnValue: 0,
+            };
+        }
+
+        case "usd_cost_update": {
+            return {
+                ...state,
+                usdCost: state.usdCost + action.cost,
+            };
+        }
+        case "usd_cost_zero": {
+            return {
+                ...state,
+                usdCost: 0,
+            };
+        }
+
+        case "usd_real_time_value_update": {
+            return {
+                ...state,
+                usdRealTimeValue: state.usdRealTimeValue + action.payload,
+            };
+        }
+        case "usd_real_time_value_zero": {
+            return {
+                ...state,
+                usdRealTimeValue: 0,
+            };
+        }
+        case "usd_today_value_update": {
+            return {
+                ...state,
+                usdTodayEarnValue: state.usdTodayEarnValue + action.payload,
+            };
+        }
+        case "usd_today_value_zero": {
+            return {
+                ...state,
+                usdTodayEarnValue: 0,
+            };
+        }
+
+        case "trigger_rerender": {
+            return {
+                ...state,
+                rerender: state.rerender + 1,
+            };
         }
 
         // case "refresh_token": {

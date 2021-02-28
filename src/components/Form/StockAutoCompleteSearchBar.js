@@ -5,40 +5,21 @@ import { GlobalContext } from "../../store/GlobalState";
 
 require("./StockAutoCompleteSearchBar.css");
 
-function StockAutoCompleteSearchBar({}) {
+function StockAutoCompleteSearchBar({
+    tickerHandle,
+    stockInfoHandle,
+    stockInfo,
+}) {
     const { userState, userDispatch, stockDispatch } = useContext(
         GlobalContext
     );
-    // const propTypes = {
-    //     suggestions: PropTypes.instanceOf(Array),
-    // };
-
-    // const defaultProps = {
-    //     suggestions: [],
-    // };
-
     const [activeSuggestion, setActiveSuggestion] = useState(0);
     const [filteredSuggestions, setFilteredSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [userInput, setUserInput] = useState("");
-    // constructor(props) {
-    //     super(props);
-
-    //     this.state = {
-    //         // The active selection's index
-    //         activeSuggestion: 0,
-    //         // The suggestions that match the user's input
-    //         filteredSuggestions: [],
-    //         // Whether or not the suggestion list is shown
-    //         showSuggestions: false,
-    //         // What the user has entered
-    //         userInput: "",
-    //     };
-    // }
 
     const onChange = async (e) => {
         const userInput = e.currentTarget.value;
-        // const { suggestions } = this.props;
         setShowSuggestions(false);
         const suggestions = await axios.get(`/search/prefix/${userInput}`, {
             headers: {
@@ -48,10 +29,19 @@ function StockAutoCompleteSearchBar({}) {
         console.log("suggestions.data.usaStocks:", suggestions.data.usaStocks);
         let usaStockSuggestions = [];
         suggestions.data.usaStocks.map((e) => {
-            usaStockSuggestions.push(e["name"]);
+            usaStockSuggestions.push(`${e["code"]} | ${e["name"]}`);
+        });
+        let koreaStockSuggestions = [];
+        suggestions.data.koreaStocks.map((e) => {
+            koreaStockSuggestions.push(`${e["code"]} | ${e["name"]}`);
         });
         console.log("usaStockSuggestions:", usaStockSuggestions);
-        setFilteredSuggestions(usaStockSuggestions);
+        console.log("koreaStockSuggestions:", koreaStockSuggestions);
+        usaStockSuggestions
+            ? setFilteredSuggestions(usaStockSuggestions)
+            : setFilteredSuggestions(koreaStockSuggestions);
+        // 여기서 axios return값인 stock information을 parent에게 건네줌
+        stockInfoHandle(suggestions.data);
 
         setActiveSuggestion(0);
         setShowSuggestions(true);
@@ -81,6 +71,7 @@ function StockAutoCompleteSearchBar({}) {
 
     const onClick = (e) => {
         const userInput = e.currentTarget.value;
+        console.log("userInput:", userInput);
         setActiveSuggestion(0);
         setFilteredSuggestions([]);
         setShowSuggestions(false);
@@ -94,14 +85,34 @@ function StockAutoCompleteSearchBar({}) {
         // });
     };
 
+    const SliceTicker = (str) => {
+        var pos = str.lastIndexOf(" | ");
+        var res = str.slice(0, pos).toLowerCase();
+        return res;
+    };
+
+    const setParentTickerState = (str) => {
+        var str2 = SliceTicker(str);
+        tickerHandle(str2);
+    };
+
     const onKeyDown = (e) => {
         // const { activeSuggestion, filteredSuggestions } = this.state;
 
         // User pressed the enter key
-        if (e.keyCode === 13) {
+        if (e.key === "Enter") {
             setActiveSuggestion(0);
             setShowSuggestions(false);
             setUserInput(filteredSuggestions[activeSuggestion]);
+            console.log("e.key enter:", filteredSuggestions[activeSuggestion]);
+            // setParentTickerState(filteredSuggestions[activeSuggestion]);
+            var pos = filteredSuggestions[activeSuggestion].lastIndexOf(" | ");
+            var res = filteredSuggestions[activeSuggestion]
+                .slice(0, pos)
+                .toLowerCase();
+            tickerHandle(res);
+
+            console.log("stockInfo:", stockInfo);
             // this.setState({
             //     activeSuggestion: 0,
             //     showSuggestions: false,
@@ -168,7 +179,7 @@ function StockAutoCompleteSearchBar({}) {
         } else {
             suggestionsListComponent = (
                 <div class="no-suggestions">
-                    <em>No suggestions, you're on your own!</em>
+                    <em>해당하는 티커가 없습니다.</em>
                 </div>
             );
         }
@@ -177,6 +188,7 @@ function StockAutoCompleteSearchBar({}) {
     return (
         <Fragment>
             <input
+                className="ticker_auto_complete_bar"
                 type="text"
                 onChange={onChange}
                 onKeyDown={onKeyDown}

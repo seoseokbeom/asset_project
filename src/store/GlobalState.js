@@ -19,6 +19,13 @@ export const initialState = {
         // },
     ],
     activePortfolioId: "",
+    krwCost: 3,
+    usdCost: 0,
+    krwRealTimeValue: 0,
+    usdRealTimeValue: 0,
+    krwTodayEarnValue: 0,
+    usdTodayEarnValue: 0,
+    rerender: 0,
 };
 
 // Create context
@@ -29,9 +36,10 @@ export const GlobalProvider = ({ children }) => {
     const [userState, userDispatch] = useReducer(userReducer, initialState);
     const [stockState, stockDispatch] = useReducer(stockReducer, initialState);
     return (
-        <GlobalContext.Provider
+        <GlobalContext.Provider value={{ userState, userDispatch }}>
+            {/* <GlobalContext.Provider
             value={{ userState, userDispatch, stockState, stockDispatch }}
-        >
+        > */}
             {children}
         </GlobalContext.Provider>
     );

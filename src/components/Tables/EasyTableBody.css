@@ -1,0 +1,16 @@
+#text_align_right {
+    text-align: right;
+}
+#text_align_center {
+    text-align: center;
+}
+
+.plus {
+    color: "green";
+    font-weight: "bold";
+}
+
+.minus {
+    color: "red";
+    font-weight: "bold";
+}

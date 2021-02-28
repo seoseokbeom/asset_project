@@ -9,22 +9,24 @@ import pink from "@material-ui/core/colors/pink";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-function AddCategory({ id }) {
+function ShowAndAddCategory({ id, categoryHandle }) {
     const [addIconVisable, setAddIconVisable] = useState(true);
     // const { portfolioId2 } = useParams();
-    const [activeButtonIndex, setActiveButtonIndex] = useState(3);
+    const [activeButtonIndex, setActiveButtonIndex] = useState(0);
     const [inputValue, setInputValue] = useState("");
-    const onClick = () => setAddIconVisable(!addIconVisable);
+    const onClick = (e) => {
+        setAddIconVisable(!addIconVisable);
+    };
     const { userState, userDispatch, stockDispatch } = useContext(
         GlobalContext
     );
-
     const [buttonBoxList, setButtonBoxList] = useState([]);
     const onChange = (event) => {
         /*  event: 사용자의 액션에 따라서 자동으로 이벤트가
       생성되며, 특정한 파라미터가 없을경우, 기본 파라미터로 이벤트 객체가 생성된다. */
         setInputValue(event.target.value);
     };
+
     const addCategoryAxios = async (categoryName) => {
         console.log("categoryName:", categoryName);
         // console.log("activePortfolioId:", userState.activePortfolioId);
@@ -81,7 +83,12 @@ function AddCategory({ id }) {
 
     useEffect(() => {
         console.log("buttonBoxList:", buttonBoxList);
+        if (buttonBoxList) {
+            categoryHandle(buttonBoxList[activeButtonIndex]);
+        }
     }, [buttonBoxList]);
+    // useEffect(() => {
+    // }, [activeButtonIndex]);
 
     const onKeyPress = (event) => {
         // 클릭 했을때 실행할 소스 추가
@@ -147,7 +154,11 @@ function AddCategory({ id }) {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => setActiveButtonIndex(i)}
+                    onClick={(e) => {
+                        console.log("buttonBoxList[i]:", buttonBoxList[i]);
+                        categoryHandle(buttonBoxList[i]);
+                        setActiveButtonIndex(i);
+                    }}
                 >
                     {v}
                 </Button>
@@ -182,4 +193,4 @@ function AddCategory({ id }) {
     );
 }
 
-export default AddCategory;
+export default ShowAndAddCategory;

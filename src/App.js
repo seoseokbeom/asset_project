@@ -75,7 +75,7 @@ function App() {
                     <Doughnut />
                     <BuffetTable />
                 </ChartContainer> */}
-                    <StockChart />
+                    {/* <StockChart /> */}
                     {/* <PortfolioManage /> */}
                 </Router>
             </div>

@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { GlobalContext } from "../../store/GlobalState";
+import Button from "@material-ui/core/Button";
+import KRWFormModal from "../Form/KRWFormModal";
 
-function EasyTable({ title, ticker, stockName, id }) {
+function CashTable({ title, ticker, stockName, id }) {
     const { userState, userDispatch, stockDispatch } = useContext(
         GlobalContext
     );
@@ -12,9 +14,10 @@ function EasyTable({ title, ticker, stockName, id }) {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [userState.rerender]);
 
     const getData = async () => {
+        setTableData([]);
         const response = await axios.get(`/portfolio/${id}`, {
             headers: {
                 Authorization: `Bearer ${userState.loginInfo.access_token}`,
@@ -40,6 +43,9 @@ function EasyTable({ title, ticker, stockName, id }) {
             setTableData(del);
         });
     };
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
     const renderHeader = () => {
         let headerElement = [
@@ -69,7 +75,20 @@ function EasyTable({ title, ticker, stockName, id }) {
                 return (
                     <tr key={i}>
                         {i == 1 ? <td>USD</td> : <td>KRW</td>}
-                        {i == 0 ? <td>{e}</td> : <td>{e}</td>}
+                        {i == 0 ? (
+                            <td>₩{numberWithCommas(e)}</td>
+                        ) : (
+                            <td>${numberWithCommas(e)}</td>
+                        )}
+                        <td id="text_align_center">
+                            <KRWFormModal
+                                passedId={i}
+                                // handleReRender={handleReRender}
+                                portfolioId={id}
+                                userState={userState}
+                                userDispatch={userDispatch}
+                            />
+                        </td>
                         {/* <td>{KRW}</td>
                         <td>{USD}</td> */}
                         {/* <td>{name}</td>
@@ -90,7 +109,15 @@ function EasyTable({ title, ticker, stockName, id }) {
 
     return (
         <>
-            <h1 id="title" style={{ color: "black" }}>
+            <h1
+                id="title_sm"
+                style={{
+                    color: "#3f50b4",
+                    fontWeight: "bold",
+                    textAlign: "left",
+                    fontSize: "1.3rem",
+                }}
+            >
                 {title}
             </h1>
             <table id="employee">
@@ -103,4 +130,4 @@ function EasyTable({ title, ticker, stockName, id }) {
     );
 }
 
-export default EasyTable;
+export default CashTable;

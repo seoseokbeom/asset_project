@@ -36,8 +36,8 @@ const defaultValues = {
 };
 
 function BuySellModal({ row, setRow, closeModal, setFormData }) {
-    const { handleSubmit, register, reset, control } = useForm({
-        defaultValues,
+    const { handleSubmit, register, reset, control } = useForm(
+        defaultValues,{
     });
     const [data, setData] = useState(null);
     const [action, setAction] = useState({});
@@ -77,7 +77,7 @@ function BuySellModal({ row, setRow, closeModal, setFormData }) {
                     data.BuySellSelector &&
                         setRow([
                             ...row,
-                            {
+                            {   
                                 symbol: data.BuySellSelector.value,
                                 name: data.date,
                                 // JSON.stringify(
