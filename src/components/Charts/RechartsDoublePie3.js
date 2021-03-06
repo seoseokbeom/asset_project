@@ -92,9 +92,9 @@ export default function RechartsDoublePie3({ dataAA, data02 }) {
     const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
     return (
         <PieChart
-            width={1300}
+            width={800}
             height={400}
-            margin={{ top: 0, right: 50, left: 550, bottom: 5 }}
+            margin={{ top: 0, right: 50, left: 150, bottom: 5 }}
         >
             <Pie
                 data={dataAA}
@@ -111,7 +111,7 @@ export default function RechartsDoublePie3({ dataAA, data02 }) {
                 {dataAA.map((entry, index) => (
                     <Cell
                         fill={
-                            pastel_tone[(index + 11) % pastel_tone.length][
+                            pastel_tone[(index + 12) % pastel_tone.length][
                                 "hex"
                             ]
                         }

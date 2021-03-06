@@ -23,7 +23,11 @@ const NewPortfolio = () => {
         axios
             .post(
                 "/portfolio",
-                { name: data.portfolio_name },
+                {
+                    name: data.portfolio_name.length
+                        ? data.portfolio_name
+                        : "첫번째포트폴리오",
+                },
                 {
                     headers: {
                         Authorization: `Bearer ${userState.loginInfo.access_token}`,
@@ -35,8 +39,6 @@ const NewPortfolio = () => {
                 {
                     history.push("/portfolio");
                 }
-                // <Link to="/portfolio"></Link>;
-                // <Route exact path="/portfolio" component={PortfolioManage} />;
                 return <PortfolioManage />;
             })
             .catch(() => {
@@ -80,14 +82,16 @@ const NewPortfolio = () => {
                                 ref={register}
                             />
 
-                            <label htmlFor="second_qeustion">두번쨰 질문</label>
+                            <label htmlFor="second_qeustion">
+                                포트폴리오 설명
+                            </label>
                             <input
                                 className="new_portfolio_input"
                                 name="second_qeustion"
-                                placeholder="두번쨰질문"
+                                placeholder="."
                                 ref={register}
                             />
-
+                            {/*
                             <label htmlFor="third_question">Email</label>
                             <input
                                 className="new_portfolio_input"
@@ -103,7 +107,7 @@ const NewPortfolio = () => {
                                 name="check_"
                                 type="checkbox"
                                 ref={register}
-                            />
+                            /> */}
                             {/* <Link to="/portfolio"> */}
                             <input
                                 className="new_portfolio_input"

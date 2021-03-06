@@ -18,6 +18,23 @@ const WallHeader = (props) => {
     const { userState, userDispatch, stockDispatch } = useContext(
         GlobalContext
     );
+    const [loggedIn, setLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const loggedInUser = localStorage.getItem("user");
+        if (loggedInUser) {
+            setLoggedIn(true);
+            console.log("loggedInUser:", loggedInUser);
+            const foundUser = JSON.parse(loggedInUser);
+            console.log("foundUser:", foundUser);
+            userDispatch({
+                type: "userState_update",
+                access_token: foundUser.data.accessToken,
+                id: foundUser.data.userId,
+            });
+        }
+        // }
+    }, []);
 
     // useEffect(() => {
     // const loggedInUser = localStorage.getItem("user");
@@ -30,10 +47,10 @@ const WallHeader = (props) => {
     // });
 
     const responseFail = (err) => {
-        alert("login failed", err);
+        console.log("login failed", err);
     };
 
-    const loginProcess = (res) => {
+    const responseKaKao = (res) => {
         axios
             .post("/user/login", {
                 socialType: "kakao",
@@ -41,12 +58,15 @@ const WallHeader = (props) => {
             })
             .then((res) => {
                 console.log("res", res);
+                localStorage.setItem("user", JSON.stringify(res));
                 userDispatch({
                     type: "userState_update",
                     access_token: res.data.accessToken,
                     id: res.data.userId,
                 });
-            });
+                setLoggedIn(true);
+            })
+            .catch((err) => alert("1111111111"));
     };
 
     return (
@@ -71,7 +91,7 @@ const WallHeader = (props) => {
                     워렌버핏
                 </Link>
             </div>
-            <div
+            {/* <div
                 className="navbar__item"
                 onClick={() =>
                     userDispatch({ type: "get_now_price", code: "qqq" })
@@ -84,41 +104,134 @@ const WallHeader = (props) => {
                 onClick={() => console.log(userState.loginInfo.access_token)}
             >
                 뉴스
-            </div>
+            </div> */}
             <div className="navbar__item">
-                {userState.loginInfo.access_token ? (
+                {loggedIn ? (
                     <div>
                         <div
                             className="navbar__item"
-                            // onClick={
-                            //     () => {
-                            //         console.log("userstate:", userState);
-                            //         axios
-                            //             .delete("/user/logout", {
-                            //                 headers: {
-                            //                     Authorization: `Bearer ${userState.loginInfo.access_token}`,
-                            //                 },
-                            //             })
-                            //             .then(() => {
-                            //                 userDispatch({
-                            //                     type: "userState_update",
-                            //                     access_token: "",
-                            //                     id: "",
-                            //                 });
-                            //                 console.log("logout succeed");
-                            //             });
-                            //     }
-                            //     // userDispatch({ type: "logout_user" })
-                            // }
+                            onClick={
+                                () => {
+                                    axios
+                                        .delete("/user/logout", {
+                                            headers: {
+                                                Authorization: `Bearer ${userState.loginInfo.access_token}`,
+                                            },
+                                        })
+                                        .then((res) => {
+                                            userDispatch({
+                                                type: "userState_update",
+                                                access_token: "",
+                                                id: "",
+                                            });
+                                            console.log(
+                                                "----------------------logout succeed",
+                                                res
+                                            );
+                                            localStorage.clear();
+                                            setLoggedIn(false);
+                                        })
+                                        .catch((err) => {
+                                            const loggedInUser = localStorage.getItem(
+                                                "user"
+                                            );
+                                            alert("22222222");
+                                            if (loggedInUser) {
+                                                console.log(
+                                                    "type:",
+                                                    typeof loggedInUser
+                                                );
+                                                console.log(
+                                                    "loggedInUser:",
+                                                    loggedInUser
+                                                );
+                                                const foundUser = JSON.parse(
+                                                    loggedInUser
+                                                );
+                                                console.log(
+                                                    "foundUser:",
+                                                    foundUser
+                                                );
+                                                axios
+                                                    .post("/user/refresh", {
+                                                        userId:
+                                                            foundUser.data
+                                                                .userId,
+                                                        accessToken:
+                                                            foundUser.data
+                                                                .accessToken,
+                                                        refreshToken:
+                                                            foundUser.data
+                                                                .refreshToken,
+                                                    })
+                                                    .then((res) => {
+                                                        console.log(
+                                                            "refresh succ:",
+                                                            res
+                                                        );
+                                                        axios
+                                                            .delete(
+                                                                "/user/logout",
+                                                                {
+                                                                    headers: {
+                                                                        Authorization: `Bearer ${userState.loginInfo.access_token}`,
+                                                                    },
+                                                                }
+                                                            )
+                                                            .then((res) => {
+                                                                userDispatch({
+                                                                    type:
+                                                                        "userState_update",
+                                                                    access_token:
+                                                                        "",
+                                                                    id: "",
+                                                                });
+                                                                console.log(
+                                                                    "logout succeed",
+                                                                    res
+                                                                );
+                                                                localStorage.clear();
+                                                                setLoggedIn(
+                                                                    false
+                                                                );
+                                                            });
+                                                    })
+                                                    .catch((res) => alert(res));
+                                                // console.log(
+                                                //     "loggedInUser:",
+                                                //     loggedInUser
+                                                // );
+                                                // console.log(foundUser);
+                                                //     console.log(
+                                                //         foundUser.accessToken
+                                                //     );
+                                                //     console.log(
+                                                //         foundUser.refreshToken
+                                                //     );
+                                                //     axios
+                                                //         .post("/user/refresh", {
+                                                //             userId:
+                                                //                 foundUser.userId,
+                                                //             accessToken:
+                                                //                 foundUser.accessToken,
+                                                //             refreshToken:
+                                                //                 foundUser.refreshToken,
+                                                //         })
+                                                //         .catch((res) => alert(res));
+                                            }
+                                        });
+                                }
+                                // userDispatch({ type: "logout_user" })
+                            }
                         >
                             Logout
                         </div>
-                        <div
+                        {/* <div
                             className="navbar__item"
                             onClick={() => getuser(userState)}
                         >
                             getUser
-                        </div>
+                        </div> */}
                     </div>
                 ) : (
                     (console.log("userState:", userState),
@@ -126,7 +239,7 @@ const WallHeader = (props) => {
                         <KaKaoBtn
                             jsKey={"af45d260886da3efeecc059923fb619e"}
                             buttonText="카카오 kakao"
-                            onSuccess={loginProcess}
+                            onSuccess={responseKaKao}
                             // onSuccess={responseKaKao}
                             onFailure={responseFail}
                             getProfile={true}

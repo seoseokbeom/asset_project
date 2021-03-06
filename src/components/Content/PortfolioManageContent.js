@@ -186,14 +186,14 @@ function PortfolioManageContent() {
                                     }}
                                 >
                                     {res.data.name}
-                                    <div
+                                    {/* <div
                                         style={{
                                             display: "flex",
                                             justifyContent: "flex-end",
                                         }}
                                     >
                                         <MenuIcon style={{ fontSize: 25 }} />
-                                    </div>
+                                    </div> */}
                                 </Container3>
                             </Link>
                             <span

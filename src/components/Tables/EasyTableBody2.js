@@ -8,7 +8,7 @@ import { GlobalContext } from "../../store/GlobalState";
 import { AXIS_LINE_COLOR } from "@gooddata/sdk-ui-charts/dist/highcharts/utils/color";
 import FormModalHooks from "../Form/FormModalHooks";
 
-function EasyTableBody({
+function EasyTableBody2({
     DATA,
     stockInfo,
     currPrice,
@@ -37,24 +37,24 @@ function EasyTableBody({
         setnewStockCodeAndCurrPrice(stockCodeAndCurrPrice);
     }, [stockCodeAndCurrPrice]);
 
-    useEffect(() => {
-        setNewStockInfo(stockInfo);
-    }, []);
-    useEffect(() => {
-        setNewStockInfo(stockInfo);
-    }, [stockInfo]);
-    useEffect(() => {
-        setNowPrice(currPrice);
-    }, []);
-    useEffect(() => {
-        setNowPrice(currPrice);
-    }, [currPrice]);
-    useEffect(() => {
-        setTableData(DATA);
-    }, []);
-    useEffect(() => {
-        setTableData(DATA);
-    }, [DATA]);
+    // useEffect(() => {
+    //     setNewStockInfo(stockInfo);
+    // }, []);
+    // useEffect(() => {
+    //     setNewStockInfo(stockInfo);
+    // }, [stockInfo]);
+    // useEffect(() => {
+    //     setNowPrice(currPrice);
+    // }, []);
+    // useEffect(() => {
+    //     setNowPrice(currPrice);
+    // }, [currPrice]);
+    // useEffect(() => {
+    //     setTableData(DATA);
+    // }, []);
+    // useEffect(() => {
+    //     setTableData(DATA);
+    // }, [DATA]);
     useEffect(() => {
         console.log("tableData:", tableData);
     }, [tableData]);
@@ -87,61 +87,51 @@ function EasyTableBody({
         var krwTodayEarnValue = 0;
         var usdTodayEarnValue = 0;
         // tableData &&
-        tableData.map(({ code, name }, i) => {
-            if (newStockInfo[i]) {
-                if (newStockInfo[i].data.stock.country == "korea") {
+        newStockCodeAndCurrPrice.map((elem, i) => {
+            if (elem[0]) {
+                if (elem[0].data.stock.country == "korea") {
                     console.log(
                         "test4:",
                         i,
                         newStockInfo,
-                        newStockInfo[i].data.avgPrice *
-                            newStockInfo[i].data.amount
+                        elem[0].data.avgPrice * elem[0].data.amount
                     );
                     console.log(
                         "------------------:",
-                        newStockInfo[i].data.avgPrice *
-                            newStockInfo[i].data.amount
+                        elem[0].data.avgPrice * elem[0].data.amount
                     );
                     userDispatch({
                         type: "krw_cost_update",
-                        cost:
-                            newStockInfo[i].data.avgPrice *
-                            newStockInfo[i].data.amount,
+                        cost: elem[0].data.avgPrice * elem[0].data.amount,
                     });
                     // krwCount +=
-                    //     newStockInfo[i].data.avgPrice * newStockInfo[i].data.amount;
+                    //     elem[0].data.avgPrice * elem[0].data.amount;
                     setDecimalPoint(0);
                 } else {
-                    usdCount +=
-                        newStockInfo[i].data.avgPrice *
-                        newStockInfo[i].data.amount;
+                    usdCount += elem[0].data.avgPrice * elem[0].data.amount;
                     setDecimalPoint(2);
                 }
             }
-            console.log(
-                "nowPrice[i] newStockInfo[i]:",
-                nowPrice[i],
-                newStockInfo[i]
-            );
+            console.log("nowPrice[i] elem[0]:", nowPrice[i], elem[0]);
             if (nowPrice[i]) {
-                if (newStockInfo[i].data.stock.country == "korea") {
+                if (elem[0].data.stock.country == "korea") {
                     krwRealTimeValue +=
-                        nowPrice[i].data.price * newStockInfo[i].data.amount;
+                        nowPrice[i].data.price * elem[0].data.amount;
                     // krw today earned value change
                     krwTodayEarnValue +=
                         (nowPrice[i].data.price -
                             (1 / (nowPrice[i].data.changePercent / 100 + 1)) *
                                 nowPrice[i].data.price) *
-                        newStockInfo[i].data.amount;
+                        elem[0].data.amount;
                 } else {
                     usdRealTimeValue +=
-                        nowPrice[i].data.price * newStockInfo[i].data.amount;
+                        nowPrice[i].data.price * elem[0].data.amount;
                     // usd today earned value change
                     usdTodayEarnValue +=
                         (nowPrice[i].data.price -
                             (1 / (nowPrice[i].data.changePercent / 100 + 1)) *
                                 nowPrice[i].data.price) *
-                        newStockInfo[i].data.amount;
+                        elem[0].data.amount;
                 }
             }
             console.log(
@@ -154,26 +144,26 @@ function EasyTableBody({
         //     type: "krw_cost_update",
         //     cost: krwCount,
         // });
-        userDispatch({
-            type: "usd_cost_update",
-            cost: usdCount,
-        });
-        userDispatch({
-            type: "krw_real_time_value_update",
-            payload: krwRealTimeValue,
-        });
-        userDispatch({
-            type: "usd_real_time_value_update",
-            payload: usdRealTimeValue,
-        });
-        userDispatch({
-            type: "krw_today_value_update",
-            payload: krwTodayEarnValue,
-        });
-        userDispatch({
-            type: "usd_today_value_update",
-            payload: usdTodayEarnValue,
-        });
+        // userDispatch({
+        //     type: "usd_cost_update",
+        //     cost: usdCount,
+        // });
+        // userDispatch({
+        //     type: "krw_real_time_value_update",
+        //     payload: krwRealTimeValue,
+        // });
+        // userDispatch({
+        //     type: "usd_real_time_value_update",
+        //     payload: usdRealTimeValue,
+        // });
+        // userDispatch({
+        //     type: "krw_today_value_update",
+        //     payload: krwTodayEarnValue,
+        // });
+        // userDispatch({
+        //     type: "usd_today_value_update",
+        //     payload: usdTodayEarnValue,
+        // });
     }, [nowPrice]);
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -195,31 +185,28 @@ function EasyTableBody({
             .catch((err) => console.log(err));
     };
     return (
-        tableData &&
-        tableData.map(({ code, name }, i) => {
-            // setIsExpanded((prev) => {
-            //     return {
-            //         ...prev,
-            //     };
-            // });
+        newStockCodeAndCurrPrice &&
+        newStockCodeAndCurrPrice.map((elem, i) => {
             return (
                 <>
                     <tr
                         key={i}
                         onClick={() =>
                             setIsExpanded((prev) => {
-                                var index = isExpanded.indexOf(code);
+                                var index = isExpanded.indexOf(
+                                    elem[1].data.code
+                                );
                                 if (index == -1) {
-                                    return [...prev, code];
+                                    return [...prev, elem[1].data.code];
                                 } else {
                                     return prev.filter((ele) => {
-                                        return ele != code;
+                                        return ele != elem[1].data.code;
                                     });
                                     // prev.splice(index, 1);
                                     return prev;
                                 }
 
-                                // if (isExpanded.includes(code)) {
+                                // if (isExpanded.includes(elem[1].data.code)) {
                                 //     if (index !== -1) {
                                 //         array.splice(index, 1);
                                 //     }
@@ -230,20 +217,23 @@ function EasyTableBody({
                         }
                     >
                         {/* 티커 */}
-                        <td style={{ fontWeight: "bold" }}>{code}</td>
+                        <td style={{ fontWeight: "bold" }}>
+                            {elem[1].data.code}
+                        </td>
                         {/* 종목명 */}
-                        <td>{name}</td>
+                        <td>{elem[0].data.stock.name}</td>
                         {/* 현재가 */}
                         <td style={{ textAlign: "right" }}>
-                            {nowPrice[i]
-                                ? numberWithCommas(nowPrice[i].data.price)
+                            {elem[1]
+                                ? numberWithCommas(
+                                      elem[1].data.price.toFixed(decimalPoint)
+                                  )
                                 : "something went wrong"}
                         </td>
                         {/* 등락률 */}
                         <td
                             style={
-                                nowPrice[i] &&
-                                nowPrice[i].data.changePercent >= 0
+                                elem[1] && elem[1].data.changePercent >= 0
                                     ? {
                                           color: "green",
                                           fontWeight: "normal",
@@ -256,102 +246,67 @@ function EasyTableBody({
                                       }
                             }
                         >
-                            {nowPrice[i]
-                                ? nowPrice[i].data.changePercent + "%"
+                            {elem[1]
+                                ? elem[1].data.changePercent + "%"
                                 : "something went wrong"}
                         </td>
                         {/* 등락 */}
                         <td style={{ textAlign: "right" }}>
-                            {nowPrice[i]
+                            {elem[1]
                                 ? numberWithCommas(
                                       (
-                                          nowPrice[i].data.price -
+                                          elem[1].data.price -
                                           (1 /
-                                              (nowPrice[i].data.changePercent /
+                                              (elem[1].data.changePercent /
                                                   100 +
                                                   1)) *
-                                              nowPrice[i].data.price
+                                              elem[1].data.price
                                       ).toFixed(decimalPoint)
                                   )
                                 : "something went wrong"}
                         </td>
                         {/* 주 */}
                         <td id="text_align_right">
-                            {newStockInfo[i]
-                                ? numberWithCommas(newStockInfo[i].data.amount)
-                                : JSON.stringify(newStockInfo[i])}
+                            {elem[0]
+                                ? numberWithCommas(elem[0].data.amount)
+                                : JSON.stringify(elem[0])}
                         </td>
                         {/* 매입평균가 */}
                         <td id="text_align_right">
-                            {newStockInfo[i] &&
-                                numberWithCommas(newStockInfo[i].data.avgPrice)}
+                            {elem[0] &&
+                                numberWithCommas(
+                                    elem[0].data.avgPrice.toFixed(decimalPoint)
+                                )}
                         </td>
                         {/* 매수금 */}
                         <td id="text_align_right">
-                            {newStockInfo[i] &&
+                            {elem[0] &&
                                 numberWithCommas(
                                     (
-                                        newStockInfo[i].data.avgPrice *
-                                        newStockInfo[i].data.amount
+                                        elem[0].data.avgPrice *
+                                        elem[0].data.amount
                                     ).toFixed(decimalPoint)
                                 )}
                         </td>
                         {/* 마켓 벨류 */}
                         <td id="text_align_right">
-                            {nowPrice[i] && newStockInfo[i]
+                            {elem[1] && elem[0]
                                 ? numberWithCommas(
                                       (
-                                          nowPrice[i].data.price *
-                                          newStockInfo[i].data.amount
+                                          elem[1].data.price *
+                                          elem[0].data.amount
                                       ).toFixed(decimalPoint)
                                   )
                                 : "something went wrong"}
                         </td>
                         {/* 총 수익 */}
-                        <td id="text_align_right">
-                            {newStockInfo[i] && nowPrice[i]
-                                ? numberWithCommas(
-                                      (
-                                          nowPrice[i].data.price *
-                                              newStockInfo[i].data.amount -
-                                          newStockInfo[i].data.avgPrice *
-                                              newStockInfo[i].data.amount
-                                      ).toFixed(decimalPoint)
-                                  )
-                                : "something went wrong"}
-                        </td>
-                        {/* 하루 수익 */}
-                        <td id="text_align_right">
-                            {nowPrice[i] && newStockInfo[i]
-                                ? numberWithCommas(
-                                      (
-                                          (nowPrice[i].data.price -
-                                              (1 /
-                                                  (nowPrice[i].data
-                                                      .changePercent /
-                                                      100 +
-                                                      1)) *
-                                                  nowPrice[i].data.price) *
-                                          newStockInfo[i].data.amount
-                                      ).toFixed(decimalPoint)
-                                  )
-                                : "something went wrong"}
-                        </td>
-                        {/* 수익률 */}
-
-                        {nowPrice[i] && newStockInfo[i] ? (
+                        {elem[0] && elem[1] ? (
                             <td
                                 id="text_align_right"
-                                // className={
-                                //     nowPrice[i].data.price /
-                                //         newStockInfo[i].data.avgPrice >
-                                //     0
-                                //         ? "plus"
-                                //         : "minus"
-                                // }
                                 style={
-                                    nowPrice[i].data.price /
-                                        newStockInfo[i].data.avgPrice >
+                                    elem[1].data.price * elem[0].data.amount -
+                                        elem[0].data.avgPrice *
+                                            elem[0].data.amount >=
                                     0
                                         ? { color: "green", fontWeight: "bold" }
                                         : { color: "red", fontWeight: "bold" }
@@ -359,18 +314,81 @@ function EasyTableBody({
                             >
                                 {numberWithCommas(
                                     (
-                                        (nowPrice[i].data.price /
-                                            newStockInfo[i].data.avgPrice -
-                                            1) *
-                                        100
-                                    ).toFixed(2) + "%"
+                                        elem[1].data.price *
+                                            elem[0].data.amount -
+                                        elem[0].data.avgPrice *
+                                            elem[0].data.amount
+                                    ).toFixed(decimalPoint)
                                 )}
+                            </td>
+                        ) : (
+                            "something went wrong"
+                        )}
+                        {/* 하루 수익 */}
+                        <td
+                            id="text_align_right"
+                            style={
+                                (elem[1].data.price -
+                                    (1 /
+                                        (elem[1].data.changePercent / 100 +
+                                            1)) *
+                                        elem[1].data.price) *
+                                    elem[0].data.amount >=
+                                0
+                                    ? { color: "green", fontWeight: "bold" }
+                                    : { color: "red", fontWeight: "bold" }
+                            }
+                        >
+                            {elem[1] && elem[0]
+                                ? numberWithCommas(
+                                      (
+                                          (elem[1].data.price -
+                                              (1 /
+                                                  (elem[1].data.changePercent /
+                                                      100 +
+                                                      1)) *
+                                                  elem[1].data.price) *
+                                          elem[0].data.amount
+                                      ).toFixed(decimalPoint)
+                                  )
+                                : "something went wrong"}
+                        </td>
+                        {/* 수익률 */}
+
+                        {elem[1] && elem[0] ? (
+                            <td
+                                id="text_align_right"
+                                // className={
+                                //     elem[1].data.price /
+                                //         elem[0].data.avgPrice >
+                                //     0
+                                //         ? "plus"
+                                //         : "minus"
+                                // }
+                                style={
+                                    elem[1].data.price / elem[0].data.avgPrice -
+                                        1 >=
+                                    0
+                                        ? { color: "green", fontWeight: "bold" }
+                                        : { color: "red", fontWeight: "bold" }
+                                }
+                            >
+                                {elem[0].data.avgPrice
+                                    ? numberWithCommas(
+                                          (
+                                              (elem[1].data.price /
+                                                  elem[0].data.avgPrice -
+                                                  1) *
+                                              100
+                                          ).toFixed(2) + "%"
+                                      )
+                                    : "0%"}
                             </td>
                         ) : (
                             // : (
                             //     <td style={{ color: "red" }}>
                             //         numberWithCommas( ( (currPrice[i].data.price /
-                            //         newStockInfo[i].data.avgPrice - 1) * 100
+                            //         elem[0].data.avgPrice - 1) * 100
                             //         ).toFixed(decimalPoint) + "%" )
                             //     </td>
                             // )
@@ -380,14 +398,14 @@ function EasyTableBody({
                         {/* <td id="text_align_center">
                             <Button
                                 key={i}
-                                // newStockInfo={newStockInfo[i].data}
+                                // newStockInfo={elem[0].data}
                                 // category={title}
-                                ticker={code}
+                                ticker={elem[1].data.code}
                                 variant="contained"
                                 onClick={() =>
                                     handleDelete(
                                         i,
-                                        newStockInfo[i].data.stock,
+                                        elem[0].data.stock,
                                         title
                                     )
                                 }
@@ -396,27 +414,27 @@ function EasyTableBody({
                             </Button>
                         </td> */}
                         <td id="text_align_center">
-                            {newStockInfo[i] && (
+                            {elem[0] && (
                                 <FormModalHooks
                                     handleReRender={handleReRender}
                                     portfolioId={portfolioId}
                                     userState={userState}
                                     formType="stock_update"
-                                    buttonText="매수/매도 내역"
-                                    stockInfo={newStockInfo[i].data.stock}
+                                    buttonText="등록"
+                                    stockInfo={elem[0].data.stock}
                                 />
                             )}
 
                             {/* <Button
                                 key={i}
-                                // newStockInfo={newStockInfo[i].data}
+                                // newStockInfo={elem[0].data}
                                 // category={title}
-                                ticker={code}
+                                ticker={elem[1].data.code}
                                 variant="contained"
                                 onClick={() =>
                                     handleDelete(
                                         i,
-                                        newStockInfo[i].data.stock,
+                                        elem[0].data.stock,
                                         title
                                     )
                                 }
@@ -427,29 +445,25 @@ function EasyTableBody({
                         <td id="text_align_center">
                             <Button
                                 key={i}
-                                // newStockInfo={newStockInfo[i].data}
+                                // newStockInfo={elem[0].data}
                                 // category={title}
-                                ticker={code}
+                                ticker={elem[1].data.code}
                                 variant="contained"
                                 onClick={() =>
-                                    handleDelete(
-                                        i,
-                                        newStockInfo[i].data.stock,
-                                        title
-                                    )
+                                    handleDelete(i, elem[0].data.stock, title)
                                 }
                             >
                                 삭제
                             </Button>
                         </td>
                     </tr>
-                    {/* && isExpanded.includes(code) */}
-                    {newStockInfo[i] && (
+                    {/* && isExpanded.includes(elem[1].data.code) */}
+                    {elem[0] && (
                         <OneStockDetailedTradingHistory
                             userState={userState}
                             portfolioId={portfolioId}
-                            code={code}
-                            stockInfo={newStockInfo[i].data.stock}
+                            code={elem[1].data.code}
+                            stockInfo={elem[0].data.stock}
                             isExpanded={isExpanded}
                         />
                     )}
@@ -466,4 +480,4 @@ function EasyTableBody({
     );
 }
 
-export default EasyTableBody;
+export default EasyTableBody2;

@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import FormHookSecond from "./FormHookSecond";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import FormHookForGoalAssetRatio from "./FormHookForGoalAssetRatio";
 Modal.setAppElement("#root");
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function FormModalHooks({
+function FormModalForGoalAssetRatio({
     portfolioId,
     userState,
     handleReRender,
@@ -58,7 +59,7 @@ function FormModalHooks({
                 <div>
                     <button onClick={() => setModalIsOpen(false)}>Close</button>
                 </div>
-                <FormHookSecond
+                <FormHookForGoalAssetRatio
                     handleModalIsOpen={handleModalIsOpen}
                     portfolioId={portfolioId}
                     userState={userState}
@@ -70,4 +71,4 @@ function FormModalHooks({
     );
 }
 
-export default FormModalHooks;
+export default FormModalForGoalAssetRatio;

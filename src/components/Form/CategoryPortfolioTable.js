@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import EasyTable from "../Tables/EasyTable";
-import ReactTableEasy from "../Tables/ReactTableEasy";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { GlobalContext } from "./../../store/GlobalState";

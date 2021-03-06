@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import portfolioImg from "../images/JPG/portfolioImg.JPG";
+import frontImg01 from "../images/JPG/frontpage_images01.jpg";
 import Logo from "../logo/Logo";
 import "./IntroPageContent.css";
 
@@ -18,8 +19,9 @@ const IntroPageContent = () => (
             <div>
                 <img
                     className="portfolio_img"
-                    src={portfolioImg}
+                    src={frontImg01}
                     alt="portfolioImg"
+                    style={{ width: "100%" }}
                 />
             </div>
         </PortfolioImg>
@@ -31,7 +33,7 @@ const Container = styled.div`
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 200vh;
+    height: 300vh;
     background-color: #eff0f3;
 `;
 
@@ -66,7 +68,7 @@ const PortfolioImg = styled.div`
     margin: auto;
     text-align: center;
     width: 1288px;
-    height: 765px;
+    height: 1165px;
 
     .portfolio_img {
         filter: drop-shadow(0px 4px 30px rgba(0, 0, 0, 0.25));

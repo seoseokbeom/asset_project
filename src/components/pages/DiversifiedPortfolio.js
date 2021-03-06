@@ -17,11 +17,16 @@ import StockAutoCompleteSearchBar from "../Form/StockAutoCompleteSearchBar";
 import FormModalHooks from "../Form/FormModalHooks";
 import CategoryPortfolioTable from "../Form/CategoryPortfolioTable";
 import { GlobalContext } from "../../store/GlobalState";
-import RechartsDoublePie2 from "../Charts/RechartsDoublePie2";
 import RechartsDoublePie3 from "../Charts/RechartsDoublePie3";
-import RechartsDoublePie from "../Charts/RechartsDoublePie";
+import FormModalForGoalAssetRatio from "../Form/FormModalForGoalAssetRatio";
 // import Doughnut2 from "../Charts/Doughnut2";
 import axios from "axios";
+import Grid from "@material-ui/core/Grid";
+import SimpleCardGoalRatio from "../Form/SimpleCardGoalRatio";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+
 import StockChart from "../Charts/StockChart";
 
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
@@ -49,11 +54,14 @@ const DiversifiedPortfolio = () => {
     // const [usdCost, setUsdCost] = useState(0);
     const [krwUsdSum, setKrwUsdSum] = useState(0);
     const [tmp, setKrwCost] = useState(userState.krwCost);
-    const [reRender, setReRenter] = useState(true);
     const [rechartsStockData, setRechartsStockData] = useState({});
     const [rechartsCategoryData, setRechartsCategoryData] = useState({});
+    const [categoryAndStockData, setCategoryAndStockData] = useState({});
+    const [cashRatio, setCashRatio] = useState([]);
+    const [assetCategory, setAssetCategory] = useState([]);
     // const [rechartsData, setRechartsData] = useState({})
 
+    const [reRender, setReRenter] = useState(true);
     const handleReRender = () => setReRenter((prev) => !prev);
     const handleKrTodayEarning = (earning) => {
         setKrTodayEarning((prev) => prev + earning);
@@ -83,6 +91,10 @@ const DiversifiedPortfolio = () => {
             return: "",
         },
     ]);
+
+    useEffect(() => {
+        console.log("cashRatio:", cashRatio);
+    }, [cashRatio]);
 
     useEffect(() => {
         console.log("koreanCost:", koreanCost);
@@ -138,6 +150,8 @@ const DiversifiedPortfolio = () => {
     useEffect(() => {
         setRechartsStockData([]);
         setRechartsCategoryData([]);
+        setCategoryAndStockData([]);
+        setCashRatio([]);
         axios
             .get(`/portfolio/${id}/status`, {
                 headers: {
@@ -149,6 +163,9 @@ const DiversifiedPortfolio = () => {
                 var tmp = "test";
                 var cnt = 0;
                 var obj1 = res.data.assetRatio.stockRatios;
+                setCategoryAndStockData(obj1);
+                setCashRatio(res.data.assetRatio.cashRatios.Cash);
+                setAssetCategory(res.data.assetCategory);
                 // key는 미국주식, 한국주식... value는 [goalRatio , nowRatio ,,,]
                 for (const [key, value] of Object.entries(obj1)) {
                     console.log("key, value:", key, value);
@@ -387,16 +404,56 @@ const DiversifiedPortfolio = () => {
                             <h2>$531,111.60</h2>
                         </div> */}
                     </FlexContainer>
-                    <div style={{ marginLeft: "500" }}>
-                        {rechartsCategoryData.length &&
-                            rechartsStockData.length && (
-                                <RechartsDoublePie3
-                                    dataAA={rechartsCategoryData}
-                                    data02={rechartsStockData}
-                                    // style={{ paddingLeft: "1000" }}
+                    <br />
+                    <br />
+                    <div>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="space-evenly"
+                            alignment="stretch"
+                            spacing={1}
+                        >
+                            <Grid container item xs={12} sm={6} spacing={3}>
+                                {/* <h1 style={{ backgroundColor: "green" }}>hi</h1> */}
+                                <div style={{ marginLeft: "500" }}>
+                                    {rechartsCategoryData.length &&
+                                        rechartsStockData.length && (
+                                            <RechartsDoublePie3
+                                                dataAA={rechartsCategoryData}
+                                                data02={rechartsStockData}
+                                                // style={{ paddingLeft: "1000" }}
+                                            />
+                                        )}
+                                </div>
+                            </Grid>
+                            <Grid container item xs={12} sm={6} spacing={3}>
+                                {/* <h1 style={{ backgroundColor: "green" }}>hi</h1> */}
+                                <SimpleCardGoalRatio
+                                    categoryAndStockData={categoryAndStockData}
+                                    assetCategory={assetCategory}
+                                    cashRatio={cashRatio}
+                                    userState={userState}
+                                    portfolioId={id}
                                 />
-                            )}
+                            </Grid>
+                        </Grid>
                     </div>
+
+                    <br />
+                    <br />
+                    {/* <div>
+                        <CssBaseline />
+                        <Container maxWidth="sm">
+                            <Typography
+                                component="div"
+                                style={{
+                                    backgroundColor: "#cfe8fc",
+                                    height: "30vh",
+                                }}
+                            />
+                        </Container>
+                    </div> */}
                     {/* <RechartsDoublePie2 /> */}
                     {/* <RechartsDoublePie
                         data01={data01}
@@ -404,11 +461,23 @@ const DiversifiedPortfolio = () => {
                         color="red"
                     /> */}
                     {/* {/* <Doughnut2 />  */}
-                    <FormModalHooks
-                        handleReRender={handleReRender}
-                        portfolioId={id}
-                        userState={userState}
-                    />
+                    <div>
+                        <FormModalHooks
+                            handleReRender={handleReRender}
+                            portfolioId={id}
+                            userState={userState}
+                            formType="firstAdd"
+                            buttonText="주식등록"
+                        />
+                    </div>
+                    {/* <div style={{ marginLeft: "100px" }}>
+                        <FormModalForGoalAssetRatio
+                            handleReRender={handleReRender}
+                            portfolioId={id}
+                            userState={userState}
+                            buttonText="목표자산구성"
+                        />
+                    </div> */}
                     <CategoryPortfolioTable
                         handleUsdCost={handleUsdCost}
                         setKrwCost

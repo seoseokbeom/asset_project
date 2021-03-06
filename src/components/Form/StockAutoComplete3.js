@@ -15,7 +15,9 @@ function StockAutoComplete3({
     userState,
     stockInfoHandle,
     tickerHandle,
+
     stockInfo,
+    passedStockInfo,
 }) {
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState([]);
@@ -24,6 +26,9 @@ function StockAutoComplete3({
     const [typedValue, setTypedValue] = useState("");
     const loading = open && usaStocks && usaStocks.length === 0;
 
+    useEffect(() => {
+        console.log("passedStockInfo last:", passedStockInfo);
+    }, [passedStockInfo]);
     const onChangeHandle = async (value) => {
         // use the changed value to make request and then use the result. Which
         console.log("value:", value);
@@ -67,6 +72,14 @@ function StockAutoComplete3({
             onClose={() => {
                 setOpen(false);
             }}
+            // defaultValue={"PLT"}
+            // {
+            //     code: "PLTR",
+            //     country: "usa",
+            //     market: "nyse",
+            //     name: "PALANTIR TECHNOLOGIES INC-A",
+            // }
+            defaultValue={passedStockInfo}
             getOptionSelected={(option, value) => {
                 // console.log("object, value:", option, value);
                 stockInfoHandle(value);

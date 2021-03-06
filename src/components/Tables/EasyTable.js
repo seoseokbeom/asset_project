@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import EasyTableBody from "./EasyTableBody";
+import EasyTableBody2 from "./EasyTableBody2";
+import ReactTableEasy from "../Tables/ReactTableEasy";
 // const URL = "https://jsonplaceholder.typicode.com/users";
 
 function EasyTable({
@@ -72,7 +74,7 @@ function EasyTable({
             setCurrPrice((prev) => [...prev, priceNow]);
             setStockCodeAndCurrPrice((prev) => [
                 ...prev,
-                (stockInfo2, priceNow),
+                [stockInfo2, priceNow],
             ]);
         });
     }, [tableData]);
@@ -99,6 +101,8 @@ function EasyTable({
             "총 수익",
             "하루 수익",
             "수익률",
+            "매수/매도 내역",
+            "삭제",
         ];
 
         return headerElement.map((key, idx) => {
@@ -119,13 +123,24 @@ function EasyTable({
             >
                 {title}
             </h1>
+            {/* <ReactTableEasy
+                        title={title}
+                        stockInfo={stockInfo}
+                        stockCodeAndCurrPrice={stockCodeAndCurrPrice}
+                        DATA={tableData}
+                        currPrice={currPrice}
+                        portfolioId={portfolioId}
+                        userState={userState}
+                        handleUsdCost={handleUsdCost}
+                        setKrwCost
+                        /> */}
+
             <table id="employee">
                 <thead>
                     <tr>{renderHeader()}</tr>
                 </thead>
-                {/* <tbody>{RenderBody()}</tbody> */}
                 <tbody>
-                    <EasyTableBody
+                    <EasyTableBody2
                         title={title}
                         stockInfo={stockInfo}
                         stockCodeAndCurrPrice={stockCodeAndCurrPrice}

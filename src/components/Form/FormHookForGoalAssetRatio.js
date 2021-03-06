@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function FormHookSecond({
+function FormHookForGoalAssetRatio({
     portfolioId,
     handleModalIsOpen,
     formType,
@@ -142,7 +142,6 @@ function FormHookSecond({
             //         parseFloat(data.amount.replace(/,/g, "")) *
             //             parseFloat(data.price.replace(/,/g, ""))
             //     );
-            console.log("data.Checkbox == false clicked");
 
             axios
                 .post(
@@ -151,17 +150,11 @@ function FormHookSecond({
                         cashFlowType: "Deposit",
                         data: {
                             balance:
-                                parseInt(
-                                    data.amount.replace(/,/g, "") *
-                                        parseFloat(data.price.replace(/,/g, ""))
-                                ) + 1,
+                                data.amount.replace(/,/g, "") *
+                                parseFloat(data.price.replace(/,/g, "")),
                             country:
-                                (stockInfo && stockInfo.country == "usa") ||
-                                (passedStockInfo &&
-                                    passedStockInfo.country == "usa")
-                                    ? "usa"
-                                    : "korea",
-                            timestamp: timestamp,
+                                stockInfo.country == "usa" ? "usa" : "korea",
+                            timestamp: timestamp - 10,
                         },
                     },
                     {
@@ -213,15 +206,7 @@ function FormHookSecond({
                 .then(() => {
                     history.push(`/portfolio/diverse/${portfolioId}`);
                 })
-                .catch((err) => {
-                    console.log('formType == "stock_update":', err);
-                    if (data.BuySellSelector.value == "매도") {
-                        alert(`오류 : 
-1. 매수한 주식보다 매도 주식이 클경우
-2. 매수한 주식기록 이전 날짜에 매도 등록하는 경우
-                        `);
-                    }
-                });
+                .catch((err) => {});
         }
         // else {
         //     await axios.post(
@@ -495,4 +480,4 @@ const Input = styled.input`
     padding: 10px 15px;
     font-size: 14px;
 `;
-export default FormHookSecond;
+export default FormHookForGoalAssetRatio;
