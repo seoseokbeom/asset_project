@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/asset_project/static/css/main.2ce8de19.chunk.css",
+    "main.js": "/asset_project/static/js/main.c21abf2b.chunk.js",
+    "main.js.map": "/asset_project/static/js/main.c21abf2b.chunk.js.map",
+    "runtime-main.js": "/asset_project/static/js/runtime-main.ed51ee9c.js",
+    "runtime-main.js.map": "/asset_project/static/js/runtime-main.ed51ee9c.js.map",
+    "static/css/2.1a02f21c.chunk.css": "/asset_project/static/css/2.1a02f21c.chunk.css",
+    "static/js/2.dca6fc1b.chunk.js": "/asset_project/static/js/2.dca6fc1b.chunk.js",
+    "static/js/2.dca6fc1b.chunk.js.map": "/asset_project/static/js/2.dca6fc1b.chunk.js.map",
+    "index.html": "/asset_project/index.html",
+    "static/css/2.1a02f21c.chunk.css.map": "/asset_project/static/css/2.1a02f21c.chunk.css.map",
+    "static/css/main.2ce8de19.chunk.css.map": "/asset_project/static/css/main.2ce8de19.chunk.css.map",
+    "static/js/2.dca6fc1b.chunk.js.LICENSE.txt": "/asset_project/static/js/2.dca6fc1b.chunk.js.LICENSE.txt",
+    "static/media/brand_icon.545ad235.svg": "/asset_project/static/media/brand_icon.545ad235.svg",
+    "static/media/buffett.511bc00c.png": "/asset_project/static/media/buffett.511bc00c.png",
+    "static/media/doughnut_chart02.32b95bf4.jpg": "/asset_project/static/media/doughnut_chart02.32b95bf4.jpg",
+    "static/media/free_try_kakao.58d5b034.svg": "/asset_project/static/media/free_try_kakao.58d5b034.svg",
+    "static/media/frontpage_images01.3ba0344b.jpg": "/asset_project/static/media/frontpage_images01.3ba0344b.jpg",
+    "static/media/grafana.b8bf70dd.JPG": "/asset_project/static/media/grafana.b8bf70dd.JPG",
+    "static/media/portfolioImg.4e200b23.JPG": "/asset_project/static/media/portfolioImg.4e200b23.JPG"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ed51ee9c.js",
+    "static/css/2.1a02f21c.chunk.css",
+    "static/js/2.dca6fc1b.chunk.js",
+    "static/css/main.2ce8de19.chunk.css",
+    "static/js/main.c21abf2b.chunk.js"
+  ]
+}
